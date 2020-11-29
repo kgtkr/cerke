@@ -22,7 +22,6 @@ module Styles = {
       position(relative),
       width(px(150)),
       height(px(140)),
-      backgroundColor(hex("000"))
     ]);
 
     let ciurl = style([
