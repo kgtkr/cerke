@@ -10,9 +10,5 @@ let default = {
   },
 }
 
-type props = {
-  count: int,
-  seed: string,
-}
-
-let ciurls = (props: props) => <Ciurls count=props.count seed=props.seed />
+let ciurls = (props: {"count": int, "seed": string}) =>
+  <Ciurls count={props["count"]} seed={props["seed"]} />
