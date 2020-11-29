@@ -1,0 +1,30 @@
+{
+  "$schema": "https://raw.githubusercontent.com/rescript-lang/rescript-compiler/master/docs/docson/build-schema.json",
+  "name": "cerke-frontend",
+  "reason": {
+    "react-jsx": 3
+  },
+  "sources": {
+    "dir": "src",
+    "subdirs": true
+  },
+  "bsc-flags": [
+    "-bs-super-errors",
+    "-bs-no-version-header"
+  ],
+  "package-specs": [
+    {
+      "module": "es6",
+      "in-source": false
+    }
+  ],
+  "namespace": true,
+  "bs-dependencies": [
+    "reason-react",
+    "bs-storybook",
+    "bs-css-emotion"
+  ],
+  "bs-dev-dependencies": [],
+  "refmt": 3,
+  "suffix": ".bs.js"
+}
