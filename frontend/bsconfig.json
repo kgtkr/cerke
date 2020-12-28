@@ -21,8 +21,7 @@
   "namespace": true,
   "bs-dependencies": [
     "reason-react",
-    "bs-storybook",
-    "bs-css-emotion"
+    "bs-storybook"
   ],
   "bs-dev-dependencies": [],
   "refmt": 3,

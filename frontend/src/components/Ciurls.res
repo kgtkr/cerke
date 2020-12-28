@@ -12,16 +12,16 @@ let makeCiurlState = (flag: bool, generator) => {
   rotate: (generator->RandomSeed.random() -. 0.5) *. Js.Math._PI *. 0.3,
 }
 
-module Styles = {
-  open Css
-
-  let container = style(list{position(relative), width(px(150)), height(px(140))})
-
-  let ciurl = style(list{position(absolute)})
+type style = {
+    container: string,
+    ciurl: string
 }
+@bs.module("@styles/components/Ciurls.scss") external style : style = "default";
 
 @react.component
 let make = (~count, ~seed) => {
+  Js.Console.log (style)
+
   let ciurlStates = {
     let gen = RandomSeed.create(seed)
     let array = Array.make(5, 0) |> Array.mapi((i, _) => makeCiurlState(i < count, gen))
@@ -29,9 +29,9 @@ let make = (~count, ~seed) => {
     array
   }
 
-  <div className=Styles.container> {React.array(ciurlStates |> Array.map(ciurlState =>
+  <div className=style.container> {React.array(ciurlStates |> Array.mapi((i, ciurlState) =>
         <img
-          className=Styles.ciurl
+          className=style.ciurl
           draggable=false
           src={if ciurlState.flag {
             "ciurl_true.png"
@@ -46,6 +46,7 @@ let make = (~count, ~seed) => {
             ~transform="rotate(" ++ (Js.Float.toString(ciurlState.rotate) ++ "rad)"),
             (),
           )}
+          key=string_of_int(i)
         />
       ))} </div>
 }

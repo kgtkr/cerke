@@ -1,4 +1,4 @@
-module Styles = {
+/*module Styles = {
   open Css
 
   let imageAnimetion = keyframes(list{
@@ -23,7 +23,7 @@ module Styles = {
 let make = () => {
   <div className=Styles.container> <img src="water_entry.png" className=Styles.image /> </div>
 }
-/*
+
 img.water_entry {
   z-index: 500;
   position: absolute;

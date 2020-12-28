@@ -23,6 +23,9 @@ module.exports = (env, argv) => {
     },
     resolve: {
       extensions: [".js"],
+      alias: {
+        "@styles": path.resolve(__dirname, "styles"),
+      },
     },
     plugins: [
       new OfflinePlugin({
@@ -78,13 +81,16 @@ module.exports = (env, argv) => {
           loader: "html-loader",
         },
         {
-          test: /\.css$/,
+          test: /\.s?css$/,
           use: [
             {
               loader: "style-loader",
             },
             {
               loader: "css-loader?modules",
+            },
+            {
+              loader: "sass-loader",
             },
           ],
         },
