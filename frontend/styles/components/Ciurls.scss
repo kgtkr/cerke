@@ -1,9 +1,9 @@
 .container {
-  position: relative;
   width: 150px;
   height: 140px;
 }
 
 .ciurl {
   position: absolute;
+  transform-origin: center;
 }

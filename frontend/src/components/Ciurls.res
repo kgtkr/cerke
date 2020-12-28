@@ -1,14 +1,14 @@
 type ciurlState = {
   flag: bool,
-  left: float,
-  top: float,
+  x: float,
+  y: float,
   rotate: float,
 }
 
 let makeCiurlState = (flag: bool, generator) => {
   flag: flag,
-  top: (generator->RandomSeed.random() -. 0.5) *. 150. *. 0.8 +. 70.,
-  left: (generator->RandomSeed.random() -. 0.5) *. 150. *. 0.2,
+  x: generator->RandomSeed.random() *. 5.,
+  y: generator->RandomSeed.random() *. 100.,
   rotate: (generator->RandomSeed.random() -. 0.5) *. Js.Math._PI *. 0.3,
 }
 
@@ -38,12 +38,14 @@ let make = (~count, ~seed) => {
           }}
           width="150"
           height="15"
-          style={ReactDOM.Style.make(
-            ~top=Js.Float.toString(ciurlState.top) ++ "px",
-            ~left=Js.Float.toString(ciurlState.left) ++ "px",
-            ~transform="rotate(" ++ (Js.Float.toString(ciurlState.rotate) ++ "rad)"),
+          style=ReactDOM.Style.make(
+            ~transform=String.concat(" ", list{
+              "translateX(" ++ Js.Float.toString(ciurlState.x) ++ "px)",
+              "translateY(" ++ Js.Float.toString(ciurlState.y) ++ "px)",
+              "rotate(" ++ Js.Float.toString(ciurlState.rotate) ++ "rad)"
+            }),
             (),
-          )}
+          )
           key=string_of_int(i)
         />
       ))} </div>
