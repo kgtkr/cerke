@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "storybook": "start-storybook -s ./public -p 6006",
-    "build-storybook": "build-storybook",
+    "build-storybook": "build-storybook -s ./public",
     "build-bs:watch": "bsb -make-world -w",
     "build-bs": "bsb -make-world",
     "start": "webpack-dev-server --mode development",
