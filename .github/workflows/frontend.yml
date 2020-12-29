@@ -13,6 +13,15 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12.x
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: node-modules-frontend
+        with:
+          path: ~/.npm
+          key: ${{ env.cache-name }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ env.cache-name }}-
       - run: npm install
       - run: make build-storybook
       - uses: actions/upload-artifact@v2
