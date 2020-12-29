@@ -6,10 +6,26 @@ type styles = {
 
 
 @react.component
-let make = (~className=?, ~onAnimationEnd=?) => {
+let make = (~className=?, ~onHidden=?) => {
+  let (show, setShow) = React.useState(() => true);
+
+  let handleAnimationEnd = React.useCallback1((_) => {
+      setShow((_) => false)
+      switch onHidden {
+        | Some(onHidden) => onHidden()
+        | None => ()
+      }
+    }, [onHidden]);
+
   <div className=?className>
-    <div className=styles.animationContainer onAnimationEnd=?onAnimationEnd>
-      <img src="water_entry.png" className=styles.image width="500"/>
-    </div>
+    {
+      if show {
+        <div className=styles.animationContainer onAnimationEnd={handleAnimationEnd}>
+          <img src="water_entry.png" className=styles.image width="500"/>
+        </div>
+      } else { 
+        React.null
+      }
+    }
   </div>
 }
