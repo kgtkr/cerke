@@ -8,7 +8,11 @@ module.exports = async ({ config, mode }) => {
         loader: "style-loader",
       },
       {
-        loader: "css-loader?modules",
+        loader: "css-loader",
+        options: {
+          url: false,
+          modules: true,
+        },
       },
       {
         loader: "sass-loader",
