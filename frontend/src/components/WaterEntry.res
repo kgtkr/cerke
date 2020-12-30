@@ -21,7 +21,7 @@ let make = (~className=?, ~onHidden=?) => {
     {
       if show {
         <div className=styles.animationContainer onAnimationEnd={handleAnimationEnd}>
-          <img src="water_entry.png" className=styles.image width="500"/>
+          <img src="images/water_entry.png" className=styles.image width="500"/>
         </div>
       } else { 
         React.null

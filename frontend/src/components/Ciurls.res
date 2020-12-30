@@ -32,9 +32,9 @@ let make = (~count, ~seed) => {
           className=styles.ciurl
           draggable=false
           src={if ciurlState.flag {
-            "ciurl_true.png"
+            "images/ciurl_true.png"
           } else {
-            "ciurl_false.png"
+            "images/ciurl_false.png"
           }}
           width="150"
           height="15"
