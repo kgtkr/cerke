@@ -15,7 +15,6 @@ let make = (~season, ~score, ~log2Rate, ~onChangeModifying=?) => {
   let iLog2Rate = Log2Rate.toInt(log2Rate)
 
   let modifying = React.useRef(false);
-
   let modifyingSeason = React.useRef(false);
   let modifyingScore = React.useRef(false);
   let modifyingRate = React.useRef(false);
@@ -31,53 +30,9 @@ let make = (~season, ~score, ~log2Rate, ~onChangeModifying=?) => {
     ()
   }, [onChangeModifying])
 
-  let seasonElRef = React.useRef(Js.Nullable.null)
-  let handleTransitionRunModifyingSeason = React.useCallback1((_) => {
-    modifyingSeason.current = true
-    changeModifying()
-  }, [changeModifying])
-  let handleTransitionCancelModifyingSeason = React.useCallback1((_) => {
-    modifyingSeason.current = false
-    changeModifying()
-  }, [changeModifying])
-  let handleTransitionEndModifyingSeason = React.useCallback1((_) => {
-    modifyingSeason.current = false
-    changeModifying()
-  }, [changeModifying])
-  ReactExt.useEventListener(seasonElRef, "transitionrun", handleTransitionRunModifyingSeason)
-  ReactExt.useEventListener(seasonElRef, "transitioncancel", handleTransitionCancelModifyingSeason)
-
-  let scoreElRef = React.useRef(Js.Nullable.null)
-  let handleTransitionRunModifyingScore = React.useCallback1((_) => {
-    modifyingScore.current = true
-    changeModifying()
-  }, [changeModifying])
-  let handleTransitionCancelModifyingScore = React.useCallback1((_) => {
-    modifyingScore.current = false
-    changeModifying()
-  }, [changeModifying])
-  let handleTransitionEndModifyingScore = React.useCallback1((_) => {
-    modifyingScore.current = false
-    changeModifying()
-  }, [changeModifying])
-  ReactExt.useEventListener(scoreElRef, "transitionrun", handleTransitionRunModifyingScore)
-  ReactExt.useEventListener(scoreElRef, "transitioncancel", handleTransitionCancelModifyingScore)
-  
-  let rateElRef = React.useRef(Js.Nullable.null)
-  let handleTransitionRunModifyingRate = React.useCallback1((_) => {
-    modifyingRate.current = true
-    changeModifying()
-  }, [changeModifying])
-  let handleTransitionCancelModifyingRate = React.useCallback1((_) => {
-    modifyingRate.current = false
-    changeModifying()
-  }, [changeModifying])
-  let handleTransitionEndModifyingRate = React.useCallback1((_) => {
-    modifyingRate.current = false
-    changeModifying()
-  }, [changeModifying])
-  ReactExt.useEventListener(rateElRef, "transitionrun", handleTransitionRunModifyingRate)
-  ReactExt.useEventListener(rateElRef, "transitioncancel", handleTransitionCancelModifyingRate)
+  let seasonElRef = ReactExt.useTransition(modifyingSeason, changeModifying)
+  let scoreElRef = ReactExt.useTransition(modifyingScore, changeModifying)
+  let rateElRef = ReactExt.useTransition(modifyingRate, changeModifying)
 
   <div className=styles.container>
     <img
@@ -90,7 +45,6 @@ let make = (~season, ~score, ~log2Rate, ~onChangeModifying=?) => {
         (),
       )
       ref=ReactDOM.Ref.domRef(seasonElRef)
-      onTransitionEnd=handleTransitionEndModifyingSeason
     />
     <img
       className=styles.score
@@ -102,7 +56,6 @@ let make = (~season, ~score, ~log2Rate, ~onChangeModifying=?) => {
         (),
       )
       ref=ReactDOM.Ref.domRef(scoreElRef)
-      onTransitionEnd=handleTransitionEndModifyingScore
     />
     {if iLog2Rate != 0 {
       <img
@@ -115,7 +68,6 @@ let make = (~season, ~score, ~log2Rate, ~onChangeModifying=?) => {
           (),
         )
         ref=ReactDOM.Ref.domRef(rateElRef)
-        onTransitionEnd=handleTransitionEndModifyingRate
       />
     } else {
       React.null
