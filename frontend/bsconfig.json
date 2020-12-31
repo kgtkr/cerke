@@ -21,7 +21,8 @@
   "namespace": true,
   "bs-dependencies": [
     "reason-react",
-    "bs-storybook"
+    "bs-storybook",
+    "bs-webapi"
   ],
   "bs-dev-dependencies": [],
   "refmt": 3,
