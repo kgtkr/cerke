@@ -30,45 +30,53 @@ let make = (~season, ~score, ~log2Rate, ~onChangeModifying=?) => {
     ()
   }, [onChangeModifying])
 
-  let seasonElRef = ReactExt.useTransition(modifyingSeason, changeModifying)
-  let scoreElRef = ReactExt.useTransition(modifyingScore, changeModifying)
-  let rateElRef = ReactExt.useTransition(modifyingRate, changeModifying)
-
   <div className=styles.container>
-    <img
-      className=styles.season
-      draggable=false
-      src="images/piece/rtam.png"
-      width="48" 
-      style=ReactDOM.Style.make(
-        ~transform="translateY(" ++ Js.Float.toString(-51. *. Js.Int.toFloat(iSeason)) ++ "px)",
-        (),
-      )
-      ref=ReactDOM.Ref.domRef(seasonElRef)
-    />
-    <img
-      className=styles.score
-      draggable=false
-      src="images/wood_side.png"
-      width="48"
-      style=ReactDOM.Style.make(
-        ~transform="translateY(" ++ Js.Float.toString(21.83333333333333 *. (20. -. Js.Int.toFloat(iScore))) ++ "px)",
-        (),
-      )
-      ref=ReactDOM.Ref.domRef(scoreElRef)
-    />
-    {if iLog2Rate != 0 {
+    <Transitioning onChangeTransitioning={(value)=>{
+      modifyingSeason.current = value
+      changeModifying()
+    }}>
       <img
-        className=styles.rate
+        className=styles.season
         draggable=false
-        src="images/wood_side2.png"
-        width="48"
+        src="images/piece/rtam.png"
+        width="48" 
         style=ReactDOM.Style.make(
-          ~transform="translateY(" ++ Js.Float.toString(-96.66666666666667 *. (Js.Int.toFloat(iLog2Rate) -. 1.)) ++ "px)",
+          ~transform="translateY(" ++ Js.Float.toString(-51. *. Js.Int.toFloat(iSeason)) ++ "px)",
           (),
         )
-        ref=ReactDOM.Ref.domRef(rateElRef)
       />
+    </Transitioning>
+    <Transitioning onChangeTransitioning={(value)=>{
+      modifyingSeason.current = value
+      changeModifying()
+    }}>
+      <img
+        className=styles.score
+        draggable=false
+        src="images/wood_side.png"
+        width="48"
+        style=ReactDOM.Style.make(
+          ~transform="translateY(" ++ Js.Float.toString(21.83333333333333 *. (20. -. Js.Int.toFloat(iScore))) ++ "px)",
+          (),
+        )
+      />
+    </Transitioning>
+    {if iLog2Rate != 0 {
+      <Transitioning onChangeTransitioning={(value)=>{
+        modifyingSeason.current = value
+        changeModifying()
+      }}>
+        <img
+          className=styles.rate
+          draggable=false
+          src="images/wood_side2.png"
+          width="48"
+          style=ReactDOM.Style.make(
+            ~transform="translateY(" ++ Js.Float.toString(-96.66666666666667 *. (Js.Int.toFloat(iLog2Rate) -. 1.)) ++ "px)",
+            (),
+          )
+        />
+      </Transitioning>
     } else {
       React.null
     }}

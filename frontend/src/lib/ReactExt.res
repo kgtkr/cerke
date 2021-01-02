@@ -25,26 +25,3 @@ let useEventListener = (elRef: React.ref<Js.Nullable.t<Webapi.Dom.Element.t>>, e
       })
   }, (elRef.current, handler))
 }
-
-let useTransition = (transition: React.ref<bool>, f) => {
-  let elRef = React.useRef(Js.Nullable.null)
-
-  let handleTransitionRun = React.useCallback1((_) => {
-    transition.current = true
-    f()
-  }, [f])
-  let handleTransitionCancel = React.useCallback1((_) => {
-    transition.current = false
-    f()
-  }, [f])
-  let handleTransitionEnd = React.useCallback1((_) => {
-    transition.current = false
-    f()
-  }, [f])
-
-  useEventListener(elRef, "transitionrun", handleTransitionRun)
-  useEventListener(elRef, "transitioncancel", handleTransitionCancel)
-  useEventListener(elRef, "transitionend", handleTransitionEnd)
-
-  elRef
-}
