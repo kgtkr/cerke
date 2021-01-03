@@ -1,1 +1,4 @@
-type t = (BoardIndex.t, BoardIndex.t)
+type t = {
+  row: BoardIndex.t,
+  col: BoardIndex.t
+}
