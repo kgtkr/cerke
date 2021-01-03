@@ -1,0 +1,1 @@
+type t = Kok1 | Huok2
