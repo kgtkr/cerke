@@ -1,3 +1,5 @@
+open Components
+
 let default = StorybookExt.make(
   (props: {"count": int, "seed": string}) => <Ciurls count={props["count"]} seed={props["seed"]} />,
   {

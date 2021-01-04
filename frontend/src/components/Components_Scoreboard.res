@@ -10,9 +10,9 @@ type styles = {
 
 @react.component
 let make = (~season, ~score, ~log2Rate, ~onChangeModifying=?) => {
-  let iSeason = Season.toInt(season)
-  let iScore = Score.toInt(score)
-  let iLog2Rate = Log2Rate.toInt(log2Rate)
+  let iSeason = Entities.Season.toInt(season)
+  let iScore = Entities.Score.toInt(score)
+  let iLog2Rate = Entities.Log2Rate.toInt(log2Rate)
 
   let modifying = React.useRef(false);
   let modifyingSeason = React.useRef(false);
@@ -39,7 +39,7 @@ let make = (~season, ~score, ~log2Rate, ~onChangeModifying=?) => {
         className=styles.season
         draggable=false
         src="images/piece/rtam.png"
-        width="48" 
+        width="48"
         style=ReactDOM.Style.make(
           ~transform="translateY(" ++ Js.Float.toString(-51. *. Js.Int.toFloat(iSeason)) ++ "px)",
           (),
