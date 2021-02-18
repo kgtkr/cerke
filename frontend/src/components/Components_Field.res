@@ -16,7 +16,7 @@
 
 open Belt
 
-type styles = {container: string}
+type styles = {container: string, piece: string}
 @bs.module("@styles/components/Field.scss") external styles: styles = "default"
 
 module FieldPiece = {
@@ -28,7 +28,7 @@ module FieldPiece = {
   let _CAPTURED_HEIGHT = 140.
   let _COL_MAX = 9
   let _PIECE_SIZE = 60.
-  let _PIECE_PAD = 5.5
+  let _PIECE_PAD = 5.0555
   let _SQUARE_SIZE = _PIECE_SIZE +. 2. *. _PIECE_PAD
 
   let toPiece = piece =>
@@ -119,9 +119,11 @@ let make = (~pieces: HashMap.String.t<FieldPiece.t>, ~state: state) => {
     ->Array.map(((key, fieldPiece)) =>
       <img
         key={key}
+        className={styles.piece}
         src={toPath(FieldPiece.toPiece(fieldPiece))}
         width="256"
         height="256"
+        draggable=false
         style={ReactDOM.Style.make(
           ~transform=String.concat(
             " ",
