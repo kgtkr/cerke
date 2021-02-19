@@ -4,7 +4,7 @@ open Belt
 let default = StorybookExt.make((props: {.}) =>
   <Field
     state={Field.MyTurnInit}
-    pieces={HashMap.String.fromArray([
+    pieces={Map.String.fromArray([
       (
         "a",
         Components.Field.FieldPiece.OnBoard({
