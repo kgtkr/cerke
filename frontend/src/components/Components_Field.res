@@ -112,10 +112,10 @@ let toPath = piece => {
 }
 
 @react.component
-let make = (~pieces: HashMap.String.t<FieldPiece.t>, ~state: state) => {
+let make = (~pieces: Map.String.t<FieldPiece.t>, ~state: state) => {
   <div className=styles.container>
     {pieces
-    ->HashMap.String.toArray
+    ->Map.String.toArray
     ->Array.map(((key, fieldPiece)) =>
       <img
         key={key}
