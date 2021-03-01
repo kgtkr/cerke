@@ -46,7 +46,6 @@ let useListTransitioning = (
       ()
     } else if endTransition {
       let _ = NonEmptyList.fromList(propsList)->OptionExt.forEach(newValue => {
-        modifiedRef.current = false
         changeScheduledProps(newValue)
       })
     }
@@ -54,26 +53,36 @@ let useListTransitioning = (
     ()
   }, (currentProps, propsList, changeScheduledProps))
 
-  React.useEffect(() => {
-    if !modifiedRef.current {
-      // リストに同じスタイルになるpropsが連続して入っていてtransitionが発生しなかった場合
-      let _ = NonEmptyList.fromList(propsList)->OptionExt.forEach(newValue => {
-        changeScheduledProps(newValue)
-      })
-    }
+  React.useEffect1(() => {
+    modifiedRef.current = false
+
+    let _ = Js.Global.setTimeout(_ => {
+      if !modifiedRef.current {
+        // リストに同じスタイルになるpropsが連続して入っていてtransitionが発生しなかった場合の処理
+        // このhooksを使う側はそのようなことが起きないようにtransitionが発生しない連続したpropsを渡してはいけない
+        // しかしアニメーションの都合でUIが固まってしまっては困るのでタイムアウトを設けて画面が固まらないようにする
+        // これはバグである可能性が高いのでコンソールにメッセージを出力する
+        let _ = NonEmptyList.fromList(propsList)->OptionExt.forEach(newValue => {
+          Js.Console.warn("[warn]useListTransitioning timeout")
+          changeScheduledProps(newValue)
+          ()
+        })
+      }
+      ()
+    }, 100)
     None
-  })
+  }, [scheduledProps])
 
   useTransitioning(~elRef, ~onChangeTransitioning=handleChangeTransitioning)
 
-  let firstRunRef = React.useRef(true)
+  let (firstRun, setFirstRun) = React.useState(_ => true)
   React.useEffect0(() => {
-    firstRunRef.current = false
+    setFirstRun(_ => false)
 
     None
   })
 
-  if firstRunRef.current {
+  if firstRun {
     currentProps
   } else {
     List.head(propsList)->Option.getWithDefault(currentProps)
