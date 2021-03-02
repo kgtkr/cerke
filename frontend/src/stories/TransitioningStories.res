@@ -4,7 +4,7 @@ module TransitioningTest = {
     let elRef = React.useRef(Js.Nullable.null)
     let (value, setValue) = React.useState(_ => (0, list{2, 1, 1, 3}))
 
-    let current = Transitioning.useListTransitioning(
+    let current = Transitioning.useScheduledTransitioning(
       ~elRef,
       ~scheduledProps=value,
       ~changeScheduledProps=newValue => setValue(_ => newValue),

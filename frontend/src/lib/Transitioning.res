@@ -24,7 +24,7 @@ let useTransitioning = (
 // TODO: 全体のタイムアウトがほしい
 // A→B→Cの順で表示したいとき、 B <= t < C の時 nonEmptyList {B, C}
 // リストの要素数が1ならアニメーションが終わっている
-let useListTransitioning = (
+let useScheduledTransitioning = (
   ~elRef: React.ref<Js.Nullable.t<Webapi.Dom.Element.t>>,
   ~scheduledProps: NonEmptyList.t<'a>,
   ~changeScheduledProps: NonEmptyList.t<'a> => unit,
