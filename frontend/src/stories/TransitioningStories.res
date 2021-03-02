@@ -29,6 +29,6 @@ module TransitioningTest = {
   }
 }
 
-let default = StorybookExt.make((props: {.}) => <TransitioningTest />, {
+let default = StorybookExt.make((_: {.}) => <TransitioningTest />, {
   "title": "Transitioning",
 })
