@@ -21,7 +21,6 @@ let useTransitioning = (
   ()
 }
 
-// TODO: 全体のタイムアウトがほしい
 // A→B→Cの順で表示したいとき、 B <= t < C の時 nonEmptyList {B, C}
 // リストの要素数が1ならアニメーションが終わっている
 let useScheduledTransitioning = (
