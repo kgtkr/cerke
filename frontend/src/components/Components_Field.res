@@ -16,7 +16,12 @@
 
 open Belt
 
-type styles = {container: string, piece: string}
+type styles = {
+  container: string,
+  piece: string,
+  opponentTurnContainer: string,
+  myPieceWhenMyTurnInit: string,
+}
 @bs.module("@styles/components/Field.scss") external styles: styles = "default"
 
 module FieldPiece = {
@@ -63,15 +68,21 @@ module FieldPiece = {
         }
       }
     }
-  let toRotate = piece =>
+  let notDownwardPiece = piece =>
     switch toPiece(piece) {
-    | Tam2 => 0.
+    | Tam2 => true
     | NonTam2Piece({side}) =>
       if side == Upward {
-        0.
+        true
       } else {
-        Js.Math._PI
+        false
       }
+    }
+  let toRotate = piece =>
+    if notDownwardPiece(piece) {
+      0.
+    } else {
+      Js.Math._PI
     }
 }
 
@@ -113,13 +124,25 @@ let toPath = piece => {
 
 @react.component
 let make = (~pieces: Map.String.t<FieldPiece.t>, ~state: state) => {
-  <div className=styles.container>
+  <div
+    className={String.concat(
+      " ",
+      list{styles.container, state == OpponentTurn ? styles.opponentTurnContainer : ""},
+    )}>
     {pieces
     ->Map.String.toArray
     ->Array.map(((key, fieldPiece)) =>
       <img
         key={key}
-        className={styles.piece}
+        className={String.concat(
+          " ",
+          list{
+            styles.piece,
+            state == MyTurnInit && FieldPiece.notDownwardPiece(fieldPiece)
+              ? styles.myPieceWhenMyTurnInit
+              : "",
+          },
+        )}
         src={toPath(FieldPiece.toPiece(fieldPiece))}
         width="256"
         height="256"

@@ -22,3 +22,11 @@
   position: absolute;
   transition: transform 1.5*0.8093s ease;
 }
+
+.opponentTurnContainer {
+  cursor: not-allowed;
+}
+
+.myPieceWhenMyTurnInit {
+  cursor: pointer;
+}
