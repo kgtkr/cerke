@@ -21,6 +21,8 @@ type styles = {
   piece: string,
   opponentTurnContainer: string,
   myPieceWhenMyTurnInit: string,
+  selection: string,
+  guide: string,
 }
 @bs.module("@styles/components/Field.scss") external styles: styles = "default"
 
@@ -42,10 +44,12 @@ module FieldPiece = {
     | Captured({piece}) => Entities.Piece.NonTam2Piece(piece)
     }
 
+  let colIndexToX = colIndex =>
+    _SQUARE_SIZE *. Int.toFloat(Entities.ColIndex.toInt(colIndex)) +. _PIECE_PAD
+
   let toX = piece =>
     switch piece {
-    | OnBoard({coord}) =>
-      _SQUARE_SIZE *. Int.toFloat(Entities.ColIndex.toInt(coord.col)) +. _PIECE_PAD
+    | OnBoard({coord}) => colIndexToX(coord.col)
     | Captured({index, piece: {side}}) => {
         let x = _SQUARE_SIZE *. Int.toFloat(mod(index, _COL_MAX)) +. _PIECE_PAD
         switch side {
@@ -54,12 +58,13 @@ module FieldPiece = {
         }
       }
     }
+
+  let rowIndexToY = rowIndex =>
+    _CAPTURED_HEIGHT +. _SQUARE_SIZE *. Int.toFloat(Entities.RowIndex.toInt(rowIndex)) +. _PIECE_PAD
+
   let toY = piece =>
     switch piece {
-    | OnBoard({coord}) =>
-      _CAPTURED_HEIGHT +.
-      _SQUARE_SIZE *. Int.toFloat(Entities.RowIndex.toInt(coord.row)) +.
-      _PIECE_PAD
+    | OnBoard({coord}) => rowIndexToY(coord.row)
     | Captured({index, piece: {side}}) => {
         let y = _SQUARE_SIZE *. Int.toFloat(index / _COL_MAX) +. _PIECE_PAD
         switch side {
@@ -84,6 +89,24 @@ module FieldPiece = {
     } else {
       Js.Math._PI
     }
+
+  let toTransformValue = piece =>
+    String.concat(
+      " ",
+      list{
+        "translateX(" ++ Js.Float.toString(toX(piece)) ++ "px)",
+        "translateY(" ++ Js.Float.toString(toY(piece)) ++ "px)",
+        "rotate(" ++ Js.Float.toString(toRotate(piece)) ++ "rad)",
+      },
+    )
+}
+
+module Movable = {
+  type kind = Normal | InfAfterStep | Tam
+  type t = {
+    coord: Entities.Coord.t,
+    kind: kind,
+  }
 }
 
 type key = string
@@ -91,7 +114,7 @@ type key = string
 type state =
   | OpponentTurn
   | MyTurnInit
-  | MoveSelection({target: key, movable: list<Entities.Coord.t>})
+  | MoveSelection({target: key, movable: list<Movable.t>})
   | StepOverMoveSelection({
       target: key,
       waypoint: Entities.Coord.t,
@@ -129,16 +152,19 @@ let make = (~pieces: Map.String.t<FieldPiece.t>, ~state: state) => {
       " ",
       list{styles.container, state == OpponentTurn ? styles.opponentTurnContainer : ""},
     )}>
-    {pieces
-    ->Map.String.toArray
-    ->Array.map(((key, fieldPiece)) =>
+    {pieces->Map.String.toArray->Array.map(((key, fieldPiece)) =>
       <img
         key={key}
         className={String.concat(
           " ",
           list{
             styles.piece,
-            state == MyTurnInit && FieldPiece.notDownwardPiece(fieldPiece)
+            switch state {
+            | MyTurnInit => true
+            | MoveSelection(_) => true
+            | _ => false
+            } &&
+            FieldPiece.notDownwardPiece(fieldPiece)
               ? styles.myPieceWhenMyTurnInit
               : "",
           },
@@ -147,25 +173,51 @@ let make = (~pieces: Map.String.t<FieldPiece.t>, ~state: state) => {
         width="256"
         height="256"
         draggable=false
-        style={ReactDOM.Style.make(
-          ~transform=String.concat(
-            " ",
-            list{
-              "translateX(" ++ Js.Float.toString(FieldPiece.toX(fieldPiece)) ++ "px)",
-              "translateY(" ++ Js.Float.toString(FieldPiece.toY(fieldPiece)) ++ "px)",
-              "rotate(" ++ Js.Float.toString(FieldPiece.toRotate(fieldPiece)) ++ "rad)",
-            },
-          ),
-          (),
-        )}
+        style={ReactDOM.Style.make(~transform=FieldPiece.toTransformValue(fieldPiece), ())}
       />
-    )
-    ->React.array}
+    )->React.array}
     {switch state {
-    | OpponentTurn => <> </>
-    | MyTurnInit => <> </>
-    | MoveSelection(_) => <> </>
-    | StepOverMoveSelection(_) => <> </>
+    | MoveSelection({target, movable}) => {
+        let target = pieces->Map.String.getExn(target)
+        <>
+          <img
+            className={styles.selection}
+            src={"images/selection.png"}
+            width="256"
+            height="256"
+            draggable=false
+            style={ReactDOM.Style.make(~transform=FieldPiece.toTransformValue(target), ())}
+          />
+          {movable->List.mapWithIndex((i, movable) =>
+            <img
+              className={styles.guide}
+              key={Int.toString(i)}
+              src={"images/" ++
+              switch movable.kind {
+              | Normal => "ct"
+              | InfAfterStep => "ct2"
+              | Tam => "ctam"
+              } ++ ".png"}
+              width="256"
+              height="256"
+              draggable=false
+              style={ReactDOM.Style.make(
+                ~transform=String.concat(
+                  " ",
+                  list{
+                    "translateX(" ++
+                    Js.Float.toString(FieldPiece.colIndexToX(movable.coord.col)) ++ "px)",
+                    "translateY(" ++
+                    Js.Float.toString(FieldPiece.rowIndexToY(movable.coord.row)) ++ "px)",
+                  },
+                ),
+                (),
+              )}
+            />
+          )->List.toArray->React.array}
+        </>
+      }
+    | _ => React.null
     }}
   </div>
 }
