@@ -13,8 +13,8 @@ let mkButtonProps = (~onClick=() => (), ~disabled=false, ()) => {
 @react.component
 let make = (
   ~src,
-  ~height,
-  ~width,
+  ~height=?,
+  ~width=?,
   ~transitionDuration=?,
   ~translateX=?,
   ~translateY=?,
@@ -25,8 +25,8 @@ let make = (
     className={styles.container}
     draggable=false
     src={src}
-    height={Float.toString(height)}
-    width={Float.toString(width)}
+    height=?{height->Option.map(Float.toString)}
+    width=?{width->Option.map(Float.toString)}
     style={ReactDOM.Style.make(
       ~transform=String.concat(
         "",
