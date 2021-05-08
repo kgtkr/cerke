@@ -4,25 +4,3 @@
   background-image: url("images/scoreboard.png");
   background-size: contain;
 }
-
-.score {
-  top: 423px;
-  position: relative;
-  left: 16px;
-  transition: transform 0.8093s;
-}
-
-.season {
-  top: 513px;
-  z-index: 1;
-  position: relative;
-  left: 3px;
-  transition: transform 0.7*0.8093s;
-}
-
-.rate {
-  top: 822px;
-  left: 4px;
-  position: relative;
-  transition: transform 1*0.8093s;
-}

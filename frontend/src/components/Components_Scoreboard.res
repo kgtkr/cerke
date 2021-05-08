@@ -1,10 +1,5 @@
-type styles = {
-  container: string,
-  season: string,
-  score: string,
-  rate: string,
-}
-@bs.module("@styles/components/Scoreboard.scss") external styles: styles = "default"
+type styles = {container: string}
+@module("@styles/components/Scoreboard.scss") external styles: styles = "default"
 
 @react.component
 let make = (~season, ~score, ~log2Rate) => {
@@ -13,38 +8,27 @@ let make = (~season, ~score, ~log2Rate) => {
   let iLog2Rate = Entities.Log2Rate.toInt(log2Rate)
 
   <div className=styles.container>
-    <img
-      className=styles.season
-      draggable=false
+    <Components_ImageSprite
       src="images/piece/rtam.png"
-      width="48"
-      style={ReactDOM.Style.make(
-        ~transform="translateY(" ++ Js.Float.toString(-51. *. Js.Int.toFloat(iSeason)) ++ "px)",
-        (),
-      )}
+      width=48.
+      translateX={3.}
+      translateY={512. +. -51. *. Js.Int.toFloat(iSeason)}
+      transitionDuration={0.7 *. 0.8093}
     />
-    <img
-      className=styles.score
-      draggable=false
+    <Components_ImageSprite
       src="images/wood_side.png"
-      width="48"
-      style={ReactDOM.Style.make(
-        ~transform="translateY(" ++
-        Js.Float.toString(21.83333333333333 *. (20. -. Js.Int.toFloat(iScore))) ++ "px)",
-        (),
-      )}
+      width=48.
+      translateX=64.
+      translateY={444.833333333 +. 21.83333333333333 *. (20. -. Js.Int.toFloat(iScore))}
+      transitionDuration=0.8093
     />
     {if iLog2Rate != 0 {
-      <img
-        className=styles.rate
-        draggable=false
+      <Components_ImageSprite
         src="images/wood_side2.png"
-        width="48"
-        style={ReactDOM.Style.make(
-          ~transform="translateY(" ++
-          Js.Float.toString(-96.66666666666667 *. (Js.Int.toFloat(iLog2Rate) -. 1.)) ++ "px)",
-          (),
-        )}
+        width=48.
+        translateX={4.}
+        translateY={870.333333333 +. -96.66666666666667 *. (Js.Int.toFloat(iLog2Rate) -. 1.)}
+        transitionDuration={0.8093}
       />
     } else {
       React.null
