@@ -1,0 +1,35 @@
+[package]
+authors = ["kgtkr <kgtkr.jp@gmail.com>"]
+edition = "2018"
+name = "cerke-frontend"
+version = "0.1.0"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+async-trait = "0.1.50"
+js-sys = "0.3.51"
+serde = {version = "1.0.126", features = ["derive"]}
+serde_derive = "1.0.126"
+wasm-bindgen = {version = "0.2.74", features = ["serde-serialize"]}
+wasm-bindgen-futures = "0.4.24"
+
+[dependencies.web-sys]
+features = [
+  "Window",
+  "Document",
+  "Element",
+  "HtmlElement",
+  "HtmlImageElement",
+  "HtmlAudioElement",
+  "CanvasRenderingContext2d",
+  'Headers',
+  'Request',
+  'RequestInit',
+  'RequestMode',
+  'Response',
+  "Blob",
+  "Url",
+]
+version = "0.3.51"
