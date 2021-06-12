@@ -1,5 +1,4 @@
 const webpack = require("webpack");
-const OfflinePlugin = require("offline-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
@@ -28,17 +27,6 @@ module.exports = (env, argv) => {
       },
     },
     plugins: [
-      new OfflinePlugin({
-        caches: {
-          main: [":rest:"],
-        },
-        ServiceWorker: {
-          output: "sw.js",
-          publicPath: "/sw.js",
-          cacheName: "cerke",
-          minify: true,
-        },
-      }),
       new HtmlWebpackPlugin({
         template: "index.html",
         filename: "index.html",
