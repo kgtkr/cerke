@@ -22,7 +22,13 @@
   "bs-dependencies": [
     "reason-react",
     "bs-storybook",
-    "bs-webapi"
+    "bs-webapi",
+    "decco",
+    "bs-deriving"
+  ],
+  "ppx-flags": [
+    "decco/ppx",
+    "ppx-deriving/ppx.js"
   ],
   "bs-dev-dependencies": [],
   "refmt": 3,
