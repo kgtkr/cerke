@@ -16,6 +16,8 @@
   "devDependencies": {
     "@storybook/addon-essentials": "^6.2.9",
     "@storybook/addon-links": "^6.2.9",
+    "@storybook/addon-postcss": "^2.0.0",
+    "@storybook/builder-webpack5": "^6.2.9",
     "@storybook/react": "^6.2.9",
     "bs-platform": "^9.0.2",
     "bs-storybook": "git+https://github.com/draftbit/bs-storybook.git#4575cb85727bec0bff165da9e794bc9b79c4ff46",
@@ -23,6 +25,7 @@
     "compression-webpack-plugin": "^8.0.0",
     "copy-webpack-plugin": "^9.0.0",
     "css-loader": "^5.2.6",
+    "dotenv-webpack": "^7.0.3",
     "favicons": "^6.2.2",
     "favicons-webpack-plugin": "^5.0.2",
     "html-loader": "^2.1.2",
