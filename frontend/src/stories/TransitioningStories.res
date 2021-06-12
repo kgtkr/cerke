@@ -33,5 +33,6 @@ let default = StorybookExt.make(
   (_: {.}) => <TransitioningTest />,
   {
     "title": "Transitioning",
+    "excludeStories": ["TransitioningTest"],
   },
 )
