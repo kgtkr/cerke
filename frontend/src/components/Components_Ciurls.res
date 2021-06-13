@@ -1,3 +1,5 @@
+open ReludeRandom
+
 type ciurlState = {
   flag: bool,
   x: float,
@@ -5,24 +7,34 @@ type ciurlState = {
   rotate: float,
 }
 
-let makeCiurlState = (flag: bool, generator) => {
-  flag: flag,
-  x: generator->RandomSeed.random() *. 5.,
-  y: generator->RandomSeed.random() *. 100.,
-  rotate: (generator->RandomSeed.random() -. 0.5) *. Js.Math._PI *. 0.3,
-}
+let makeCiurlState = (flag: bool) =>
+  Generator.float(~min=0., ~max=5.) |> Generator.flatMap(x => {
+    Generator.float(~min=0., ~max=100.) |> Generator.flatMap(y => {
+      Generator.float(
+        ~min=-.Js.Math._PI *. 0.15,
+        ~max=Js.Math._PI *. 0.15,
+      ) |> Generator.flatMap(rotate => {
+        Generator.pure({
+          flag: flag,
+          x: x,
+          y: y,
+          rotate: rotate,
+        })
+      })
+    })
+  })
+
+let makeCiurlStates = count =>
+  Belt.Array.range(0, 4)
+  |> TraversableExt.ArrayGenerator.traverse(x => makeCiurlState(x < count))
+  |> Generator.flatMap(xs => ArrayExt.shuffle(xs))
 
 type styles = {container: string}
 @module("@styles/components/Ciurls.scss") external styles: styles = "default"
 
 @react.component
 let make = (~count, ~seed) => {
-  let ciurlStates = {
-    let gen = RandomSeed.create(seed)
-    let array = Array.make(5, 0) |> Array.mapi((i, _) => makeCiurlState(i < count, gen))
-    ArrayExt.shuffle(array, gen)
-    array
-  }
+  let (ciurlStates, _) = Generator.run(makeCiurlStates(count), Seed.fromInt(seed))
 
   <div className=styles.container>
     {React.array(

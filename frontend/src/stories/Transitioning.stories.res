@@ -2,7 +2,7 @@ module TransitioningTest = {
   @react.component
   let make = () => {
     let elRef = React.useRef(Js.Nullable.null)
-    let (value, setValue) = React.useState(_ => (0, list{2, 1, 1, 3}))
+    let (value, setValue) = React.useState(_ => Relude.NonEmptyArray.make(0, [2, 1, 1, 3]))
 
     let current = Transitioning.useScheduledTransitioning(
       ~elRef,

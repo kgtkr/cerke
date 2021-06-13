@@ -20,6 +20,7 @@
     "@storybook/builder-webpack5": "^6.2.9",
     "@storybook/react": "^6.2.9",
     "bs-deriving": "^44.2.0",
+    "bs-let": "^0.1.16",
     "bs-platform": "^9.0.2",
     "bs-storybook": "git+https://github.com/draftbit/bs-storybook.git#4575cb85727bec0bff165da9e794bc9b79c4ff46",
     "clean-webpack-plugin": "^3.0.0",
@@ -41,11 +42,14 @@
     "webpack-dev-server": "^3.11.2"
   },
   "dependencies": {
+    "bs-bastet": "^2.0.0",
     "bs-webapi": "^0.19.1",
     "decco": "^1.4.0",
-    "random-seed": "^0.3.0",
     "react": "0.0.0-experimental-01be61c12",
     "react-dom": "0.0.0-experimental-01be61c12",
-    "reason-react": "^0.9.1"
+    "reason-future": "^2.6.0",
+    "reason-react": "^0.9.1",
+    "relude": "^0.65.0",
+    "relude-random": "^0.2.0"
   }
 }

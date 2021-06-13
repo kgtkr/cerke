@@ -24,9 +24,14 @@
     "bs-storybook",
     "bs-webapi",
     "decco",
-    "bs-deriving"
+    "bs-deriving",
+    "bs-bastet",
+    "relude",
+    "relude-random",
+    "reason-future"
   ],
   "ppx-flags": [
+    "bs-let/ppx",
     "decco/ppx",
     "ppx-deriving/ppx.js"
   ],

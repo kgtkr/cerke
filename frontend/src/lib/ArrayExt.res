@@ -1,7 +1,14 @@
-let shuffle = (array, generator) =>
-  for i in Array.length(array) - 1 downto 1 {
-    let r = Js.Math.floor(generator->RandomSeed.random() *. (Js.Int.toFloat(i) +. 1.))
-    let tmp = array[i]
-    array[i] = array[r]
-    array[r] = tmp
-  }
+open ReludeRandom
+
+let shuffle = array =>
+  Belt.Array.range(1, Array.length(array) - 1)->Belt.Array.reverse
+  |> TraversableExt.ArrayGenerator.traverse(i => Generator.int(~min=0, ~max=i))
+  |> Generator.map(rs => {
+    let array = Array.copy(array)
+    rs->Belt.Array.forEachWithIndex((i, r) => {
+      let tmp = array[i]
+      array[i] = array[r]
+      array[r] = tmp
+    })
+    array
+  })
