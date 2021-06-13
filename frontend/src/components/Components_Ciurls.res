@@ -7,7 +7,7 @@ type ciurlState = {
   rotate: float,
 }
 
-let makeCiurlStatea = (flag: bool) =>
+let makeCiurlState = (flag: bool) =>
   %GeneratorExt({
     let x = Generator.float(~min=0., ~max=5.)
     %GeneratorExt({
@@ -15,23 +15,6 @@ let makeCiurlStatea = (flag: bool) =>
       %GeneratorExt({
         let rotate = Generator.float(~min=-.Js.Math._PI *. 0.15, ~max=Js.Math._PI *. 0.15)
 
-        Generator.pure({
-          flag: flag,
-          x: x,
-          y: y,
-          rotate: rotate,
-        })
-      })
-    })
-  })
-
-let makeCiurlState = (flag: bool) =>
-  Generator.float(~min=0., ~max=5.) |> Generator.flatMap(x => {
-    Generator.float(~min=0., ~max=100.) |> Generator.flatMap(y => {
-      Generator.float(
-        ~min=-.Js.Math._PI *. 0.15,
-        ~max=Js.Math._PI *. 0.15,
-      ) |> Generator.flatMap(rotate => {
         Generator.pure({
           flag: flag,
           x: x,
