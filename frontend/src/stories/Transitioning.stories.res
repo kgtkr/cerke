@@ -14,10 +14,7 @@ module TransitioningTest = {
     <div ref={ReactDOM.Ref.domRef(elRef)}>
       <div
         style={ReactDOM.Style.make(
-          ~transform=String.concat(
-            " ",
-            list{"translateX(" ++ Js.Int.toString(current * 100) ++ "px)"},
-          ),
+          ~transform=String.concat(" ", list{`translateX(${Js.Int.toString(current * 100)}px)`}),
           ~transition="transform 1s",
           ~backgroundColor="black",
           ~width="100px",

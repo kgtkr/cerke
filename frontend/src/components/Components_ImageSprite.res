@@ -31,12 +31,12 @@ let make = (
       ~transform=String.concat(
         "",
         list{
-          translateX->Option.map(x => "translateX(" ++ Float.toString(x) ++ "px)"),
-          translateY->Option.map(x => "translateY(" ++ Float.toString(x) ++ "px)"),
-          rotate->Option.map(x => "rotate(" ++ Float.toString(x) ++ "rad)"),
-        }->List.keepMap(x => x),
+          translateX->Option.map(x => `translateX(${Float.toString(x)}px)`),
+          translateY->Option.map(x => `translateY(${Float.toString(x)}px)`),
+          rotate->Option.map(x => `rotate(${Float.toString(x)}rad)`),
+        }->List.keepMap(Relude.Function.id),
       ),
-      ~transition=?transitionDuration->Option.map(x => "transform " ++ Float.toString(x) ++ "s"),
+      ~transition=?transitionDuration->Option.map(x => `transform ${Float.toString(x)}s`),
       ~cursor=?button->Option.map(button =>
         if button.disabled {
           "pointer"

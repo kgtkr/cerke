@@ -24,7 +24,7 @@ type styles = {
   selection: string,
   guide: string,
 }
-@bs.module("@styles/components/Field.scss") external styles: styles = "default"
+@module("@styles/components/Field.scss") external styles: styles = "default"
 
 module FieldPiece = {
   type t =
@@ -94,9 +94,9 @@ module FieldPiece = {
     String.concat(
       " ",
       list{
-        "translateX(" ++ Js.Float.toString(toX(piece)) ++ "px)",
-        "translateY(" ++ Js.Float.toString(toY(piece)) ++ "px)",
-        "rotate(" ++ Js.Float.toString(toRotate(piece)) ++ "rad)",
+        `translateX(${Js.Float.toString(toX(piece))}px)`,
+        `translateY(${Js.Float.toString(toY(piece))}px)`,
+        `rotate(${Js.Float.toString(toRotate(piece))}rad)`,
       },
     )
 }
@@ -152,7 +152,9 @@ let make = (~pieces: Map.String.t<FieldPiece.t>, ~state: state) => {
       " ",
       list{styles.container, state == OpponentTurn ? styles.opponentTurnContainer : ""},
     )}>
-    {pieces->Map.String.toArray->Array.map(((key, fieldPiece)) =>
+    {pieces
+    ->Map.String.toArray
+    ->Array.map(((key, fieldPiece)) =>
       <img
         key={key}
         className={String.concat(
@@ -175,7 +177,8 @@ let make = (~pieces: Map.String.t<FieldPiece.t>, ~state: state) => {
         draggable=false
         style={ReactDOM.Style.make(~transform=FieldPiece.toTransformValue(fieldPiece), ())}
       />
-    )->React.array}
+    )
+    ->React.array}
     {switch state {
     | MoveSelection({target, movable}) => {
         let target = pieces->Map.String.getExn(target)
@@ -188,7 +191,8 @@ let make = (~pieces: Map.String.t<FieldPiece.t>, ~state: state) => {
             draggable=false
             style={ReactDOM.Style.make(~transform=FieldPiece.toTransformValue(target), ())}
           />
-          {movable->List.mapWithIndex((i, movable) =>
+          {movable
+          ->List.mapWithIndex((i, movable) =>
             <img
               className={styles.guide}
               key={Int.toString(i)}
@@ -205,16 +209,18 @@ let make = (~pieces: Map.String.t<FieldPiece.t>, ~state: state) => {
                 ~transform=String.concat(
                   " ",
                   list{
-                    "translateX(" ++
-                    Js.Float.toString(FieldPiece.colIndexToX(movable.coord.col)) ++ "px)",
-                    "translateY(" ++
-                    Js.Float.toString(FieldPiece.rowIndexToY(movable.coord.row)) ++ "px)",
+                    `translateX(${Js.Float.toString(FieldPiece.colIndexToX(movable.coord.col))}px)`,
+                    `translateY(${Js.Float.toString(
+                        FieldPiece.rowIndexToY(movable.coord.row),
+                      )} px)`,
                   },
                 ),
                 (),
               )}
             />
-          )->List.toArray->React.array}
+          )
+          ->List.toArray
+          ->React.array}
         </>
       }
     | _ => React.null
