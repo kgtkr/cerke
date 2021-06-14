@@ -28,7 +28,8 @@
     "bs-bastet",
     "relude",
     "relude-random",
-    "reason-future"
+    "reason-future",
+    "rescript-recoil"
   ],
   "ppx-flags": [
     "bs-let/ppx",

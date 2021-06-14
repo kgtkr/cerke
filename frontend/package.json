@@ -49,7 +49,9 @@
     "react-dom": "^18.0.0-alpha-01be61c12",
     "reason-future": "^2.6.0",
     "reason-react": "^0.9.1",
+    "recoil": "^0.3.1",
     "relude": "^0.65.0",
-    "relude-random": "^0.2.0"
+    "relude-random": "^0.2.0",
+    "rescript-recoil": "^0.11.2"
   }
 }
