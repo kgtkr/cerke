@@ -1,7 +1,7 @@
 type reactRoot
 
 @module("react-dom")
-external createRoot: Dom.element => reactRoot = "createRoot"
+external createRoot: Webapi.Dom.Element.t => reactRoot = "createRoot"
 
 @bs.send
 external render: (reactRoot, React.element) => unit = "render"
