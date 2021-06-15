@@ -1,6 +1,6 @@
 open Belt
 
-type t = {registerAnimation: ((unit => unit) => unit) => unit}
+type t = {registerAnimation: ((unit => unit) => unit) => unit, duringAnimation: ref<bool>}
 
 // durationは呼び出しごとに変わらないことを想定している
 let useAnimationValue = (x: 'a, ~duration: int, ~eq: Relude.Eq.eq<'a>, ~manager: t): 'a => {
@@ -22,10 +22,21 @@ let useAnimationValue = (x: 'a, ~duration: int, ~eq: Relude.Eq.eq<'a>, ~manager:
   renderX
 }
 
+let useDuringAnimation = (~manager: t): bool => {
+  let (duringAnimation, setDuringAnimation) = React.useState(() => manager.duringAnimation.contents)
+  React.useEffect1(() => {
+    setDuringAnimation(_ => manager.duringAnimation.contents)
+    None
+  }, [manager.duringAnimation.contents])
+  duringAnimation
+}
+
 let useAnimationManager = (~timeout=5000, ()): t => {
   let running = React.useRef(false)
   let queue = React.useRef(MutableQueue.make())
+  let duringAnimation = React.useRef(ref(false))
   let rec checkQueue = () => {
+    duringAnimation.current := running.current || !(queue.current->MutableQueue.isEmpty)
     if !running.current {
       let _ =
         queue.current
@@ -60,5 +71,10 @@ let useAnimationManager = (~timeout=5000, ()): t => {
     checkQueue()
   })
 
-  {registerAnimation: registerAnimation}
+  let manager = React.useMemo0(() => {
+    registerAnimation: registerAnimation,
+    duringAnimation: duringAnimation.current,
+  })
+
+  manager
 }
