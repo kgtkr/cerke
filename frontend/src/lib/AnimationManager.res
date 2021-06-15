@@ -1,3 +1,5 @@
+open Belt
+
 type t = {registerAnimation: ((unit => unit) => unit) => unit}
 
 // durationは呼び出しごとに変わらないことを想定している
@@ -18,4 +20,45 @@ let useAnimationValue = (x: 'a, ~duration: int, ~eq: Relude.Eq.eq<'a>, ~manager:
   }, [x])
 
   renderX
+}
+
+let useAnimationManager = (~timeout=5000, ()): t => {
+  let running = React.useRef(false)
+  let queue = React.useRef(MutableQueue.make())
+  let rec checkQueue = () => {
+    if !running.current {
+      let _ =
+        queue.current
+        ->MutableQueue.pop
+        ->OptionExt.forEach(callback => {
+          running.current = true
+          let calledEnd = ref(false)
+          let end = () => {
+            if !calledEnd.contents {
+              calledEnd := true
+              running.current = false
+              checkQueue()
+            } else {
+              Js.Console.warn("[AnimationManager]End has already been called or timed out")
+            }
+          }
+
+          let _ = Js.Global.setTimeout(() => {
+            if !calledEnd.contents {
+              Js.Console.warn("[AnimationManager]Animation timed out")
+              end()
+            }
+          }, timeout)
+
+          callback(end)
+        })
+    }
+    ()
+  }
+  let registerAnimation = React.useCallback0(callback => {
+    queue.current->MutableQueue.add(callback)
+    checkQueue()
+  })
+
+  {registerAnimation: registerAnimation}
 }
