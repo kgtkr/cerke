@@ -38,31 +38,30 @@ let useAnimationManager = (~timeout=5000, ()): t => {
   let rec checkQueue = () => {
     duringAnimation.current := running.current || !(queue.current->MutableQueue.isEmpty)
     if !running.current {
-      let _ =
-        queue.current
-        ->MutableQueue.pop
-        ->OptionExt.forEach(callback => {
-          running.current = true
-          let calledEnd = ref(false)
-          let end = () => {
-            if !calledEnd.contents {
-              calledEnd := true
-              running.current = false
-              checkQueue()
-            } else {
-              Js.Console.warn("[AnimationManager]End has already been called or timed out")
-            }
+      queue.current
+      ->MutableQueue.pop
+      ->OptionExt.forEach_(callback => {
+        running.current = true
+        let calledEnd = ref(false)
+        let end = () => {
+          if !calledEnd.contents {
+            calledEnd := true
+            running.current = false
+            checkQueue()
+          } else {
+            Js.Console.warn("[AnimationManager]End has already been called or timed out")
           }
+        }
 
-          let _ = Js.Global.setTimeout(() => {
-            if !calledEnd.contents {
-              Js.Console.warn("[AnimationManager]Animation timed out")
-              end()
-            }
-          }, timeout)
+        let _ = Js.Global.setTimeout(() => {
+          if !calledEnd.contents {
+            Js.Console.warn("[AnimationManager]Animation timed out")
+            end()
+          }
+        }, timeout)
 
-          callback(end)
-        })
+        callback(end)
+      })
     }
     ()
   }

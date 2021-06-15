@@ -44,7 +44,7 @@ let useScheduledTransitioning = (
     if startTransition {
       ()
     } else if endTransition {
-      let _ = Relude.NonEmptyArray.fromArray(propsList)->OptionExt.forEach(newValue => {
+      Relude.NonEmptyArray.fromArray(propsList)->OptionExt.forEach_(newValue => {
         changeScheduledProps(newValue)
       })
     }
@@ -61,7 +61,7 @@ let useScheduledTransitioning = (
         // このhooksを使う側はそのようなことが起きないようにtransitionが発生しない連続したpropsを渡してはいけない
         // しかしアニメーションの都合でUIが固まってしまっては困るのでタイムアウトを設けて画面が固まらないようにする
         // これはバグである可能性が高いのでコンソールにメッセージを出力する
-        let _ = Relude.NonEmptyArray.fromArray(propsList)->OptionExt.forEach(newValue => {
+        Relude.NonEmptyArray.fromArray(propsList)->OptionExt.forEach_(newValue => {
           Js.Console.warn("[warn]useListTransitioning timeout")
           changeScheduledProps(newValue)
           ()

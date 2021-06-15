@@ -47,7 +47,7 @@ let make = (
       (),
     )}
     onClick={_ => {
-      let _ = button->OptionExt.forEach(button => {
+      button->OptionExt.forEach_(button => {
         if !button.disabled {
           button.onClick()
         }
