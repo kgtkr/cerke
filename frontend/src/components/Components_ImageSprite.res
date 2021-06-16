@@ -39,9 +39,9 @@ let make = (
       ~transition=?transitionDuration->Option.map(x => `transform ${Float.toString(x)}s`),
       ~cursor=?button->Option.map(button =>
         if button.disabled {
-          "pointer"
-        } else {
           "not-allowed"
+        } else {
+          "pointer"
         }
       ),
       (),

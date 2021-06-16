@@ -18,9 +18,7 @@ open Belt
 
 type styles = {
   container: string,
-  piece: string,
   opponentTurnContainer: string,
-  myPieceWhenMyTurnInit: string,
   selection: string,
   guide: string,
 }
@@ -155,27 +153,23 @@ let make = (~pieces: Map.String.t<FieldPiece.t>, ~state: state) => {
     {pieces
     ->Map.String.toArray
     ->Array.map(((key, fieldPiece)) =>
-      <img
+      <Components_ImageSprite
         key={key}
-        className={String.concat(
-          " ",
-          list{
-            styles.piece,
-            switch state {
-            | MyTurnInit => true
-            | MoveSelection(_) => true
-            | _ => false
-            } &&
-            FieldPiece.notDownwardPiece(fieldPiece)
-              ? styles.myPieceWhenMyTurnInit
-              : "",
-          },
-        )}
         src={toPath(FieldPiece.toPiece(fieldPiece))}
-        width="256"
-        height="256"
-        draggable=false
-        style={ReactDOM.Style.make(~transform=FieldPiece.toTransformValue(fieldPiece), ())}
+        width=60.
+        height=60.
+        translateX={FieldPiece.toX(fieldPiece)}
+        translateY={FieldPiece.toY(fieldPiece)}
+        rotate={FieldPiece.toRotate(fieldPiece)}
+        transitionDuration={1.5 *. 0.8093}
+        button=?{switch state {
+        | MyTurnInit => true
+        | MoveSelection(_) => true
+        | _ => false
+        } &&
+        FieldPiece.notDownwardPiece(fieldPiece)
+          ? Some(Components_ImageSprite.mkButtonProps())
+          : None}
       />
     )
     ->React.array}
