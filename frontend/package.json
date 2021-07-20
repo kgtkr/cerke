@@ -6,8 +6,8 @@
   "scripts": {
     "storybook": "start-storybook -s ./public -p 6006",
     "build-storybook": "build-storybook -s ./public",
-    "build-bs:watch": "bsb -make-world -w",
-    "build-bs": "bsb -make-world",
+    "build-bs:watch": "rescript build -with-deps -w",
+    "build-bs": "rescript build -with-deps",
     "start": "webpack serve --mode development",
     "build": "webpack --mode production"
   },
@@ -19,10 +19,7 @@
     "@storybook/addon-postcss": "^2.0.0",
     "@storybook/builder-webpack5": "^6.2.9",
     "@storybook/react": "^6.2.9",
-    "bs-deriving": "^44.2.0",
     "bs-let": "^0.1.16",
-    "bs-platform": "^9.0.2",
-    "bs-storybook": "git+https://github.com/draftbit/bs-storybook.git#4575cb85727bec0bff165da9e794bc9b79c4ff46",
     "clean-webpack-plugin": "^3.0.0",
     "compression-webpack-plugin": "^8.0.0",
     "copy-webpack-plugin": "^9.0.0",
@@ -34,6 +31,7 @@
     "html-webpack-plugin": "^5.3.1",
     "npm-run-all": "^4.1.5",
     "ppx-deriving": "^44.2.0",
+    "rescript": "^9.1.4",
     "sass": "^1.34.1",
     "sass-loader": "^12.1.0",
     "style-loader": "^2.0.0",
@@ -42,16 +40,17 @@
     "webpack-dev-server": "^3.11.2"
   },
   "dependencies": {
+    "@rescript/react": "^0.10.3",
+    "bisect_ppx": "^2.6.2",
     "bs-bastet": "^2.0.0",
     "bs-webapi": "^0.19.1",
     "decco": "^1.4.0",
     "react": "^18.0.0-alpha-01be61c12",
     "react-dom": "^18.0.0-alpha-01be61c12",
     "reason-future": "^2.6.0",
-    "reason-react": "^0.9.1",
     "recoil": "^0.3.1",
     "relude": "^0.65.0",
     "relude-random": "^0.2.0",
-    "rescript-recoil": "^0.11.2"
+    "rescript-recoil": "^2.1.0"
   }
 }

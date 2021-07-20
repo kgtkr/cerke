@@ -20,11 +20,9 @@
   ],
   "namespace": true,
   "bs-dependencies": [
-    "reason-react",
-    "bs-storybook",
+    "@rescript/react",
     "bs-webapi",
     "decco",
-    "bs-deriving",
     "bs-bastet",
     "relude",
     "relude-random",
@@ -33,8 +31,7 @@
   ],
   "ppx-flags": [
     "bs-let/ppx",
-    "decco/ppx",
-    "ppx-deriving/ppx.js"
+    "decco/ppx"
   ],
   "bs-dev-dependencies": [],
   "refmt": 3,
