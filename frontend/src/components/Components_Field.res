@@ -177,18 +177,19 @@ let make = (~pieces: Map.String.t<FieldPiece.t>, ~state: state) => {
     | MoveSelection({target, movable}) => {
         let target = pieces->Map.String.getExn(target)
         <>
-          <img
-            className={styles.selection}
+          <Components_ImageSprite
             src={"images/selection.png"}
-            width="256"
-            height="256"
-            draggable=false
-            style={ReactDOM.Style.make(~transform=FieldPiece.toTransformValue(target), ())}
+            className={styles.selection}
+            width=60.
+            height=60.
+            translateX={FieldPiece.toX(target)}
+            translateY={FieldPiece.toY(target)}
+            rotate={FieldPiece.toRotate(target)}
+            button={Components_ImageSprite.mkButtonProps()}
           />
           {movable
           ->List.mapWithIndex((i, movable) =>
-            <img
-              className={styles.guide}
+            <Components_ImageSprite
               key={Int.toString(i)}
               src={"images/" ++
               switch movable.kind {
@@ -196,21 +197,12 @@ let make = (~pieces: Map.String.t<FieldPiece.t>, ~state: state) => {
               | InfAfterStep => "ct2"
               | Tam => "ctam"
               } ++ ".png"}
-              width="256"
-              height="256"
-              draggable=false
-              style={ReactDOM.Style.make(
-                ~transform=String.concat(
-                  " ",
-                  list{
-                    `translateX(${Js.Float.toString(FieldPiece.colIndexToX(movable.coord.col))}px)`,
-                    `translateY(${Js.Float.toString(
-                        FieldPiece.rowIndexToY(movable.coord.row),
-                      )} px)`,
-                  },
-                ),
-                (),
-              )}
+              className={styles.guide}
+              width=60.
+              height=60.
+              translateX={FieldPiece.colIndexToX(movable.coord.col)}
+              translateY={FieldPiece.rowIndexToY(movable.coord.row)}
+              button={Components_ImageSprite.mkButtonProps()}
             />
           )
           ->List.toArray

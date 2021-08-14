@@ -13,6 +13,7 @@ let mkButtonProps = (~onClick=() => (), ~disabled=false, ()) => {
 @react.component
 let make = (
   ~src,
+  ~className=?,
   ~height=?,
   ~width=?,
   ~transitionDuration=?,
@@ -22,7 +23,7 @@ let make = (
   ~button=?,
 ) => {
   <img
-    className={styles.container}
+    className={styles.container ++ " " ++ className->Option.getWithDefault("")}
     draggable=false
     src={src}
     height=?{height->Option.map(Float.toString)}

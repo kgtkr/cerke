@@ -21,15 +21,11 @@
 }
 
 .selection {
-  position: absolute;
   animation: selection_anime 0.8093s ease -2 * 0.8093s infinite alternate;
-  cursor: pointer;
 }
 
 .guide {
-  position: absolute;
   animation: guide_anime 0.8093s ease -2 * 0.8093s infinite alternate;
-  cursor: pointer;
   opacity: 0.3;
 }
 

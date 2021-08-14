@@ -18,6 +18,59 @@ let default = StorybookExt.make(
       state={switch props["state"] {
       | "OpponentTurn" => Field.OpponentTurn
       | "MyTurnInit" => Field.MyTurnInit
+      | "MoveSelection(Normal)" =>
+        Field.MoveSelection({
+          target: "key",
+          movable: list{
+            {
+              coord: {
+                row: Option.getExn(Entities.RowIndex.fromInt(1)),
+                col: Option.getExn(Entities.ColIndex.fromInt(1)),
+              },
+              kind: Field.Movable.Normal,
+            },
+          },
+        })
+      | "MoveSelection(InfAfterStep)" =>
+        Field.MoveSelection({
+          target: "key",
+          movable: list{
+            {
+              coord: {
+                row: Option.getExn(Entities.RowIndex.fromInt(1)),
+                col: Option.getExn(Entities.ColIndex.fromInt(1)),
+              },
+              kind: Field.Movable.InfAfterStep,
+            },
+          },
+        })
+      | "MoveSelection(Tam)" =>
+        Field.MoveSelection({
+          target: "key",
+          movable: list{
+            {
+              coord: {
+                row: Option.getExn(Entities.RowIndex.fromInt(1)),
+                col: Option.getExn(Entities.ColIndex.fromInt(1)),
+              },
+              kind: Field.Movable.Tam,
+            },
+          },
+        })
+      | "StepOverMoveSelection" =>
+        Field.StepOverMoveSelection({
+          target: "key",
+          waypoint: {
+            row: Option.getExn(Entities.RowIndex.fromInt(1)),
+            col: Option.getExn(Entities.ColIndex.fromInt(1)),
+          },
+          movable: list{
+            {
+              row: Option.getExn(Entities.RowIndex.fromInt(1)),
+              col: Option.getExn(Entities.ColIndex.fromInt(1)),
+            },
+          },
+        })
       | _ => Js.Exn.raiseError("unreachable")
       }}
       pieces={Map.String.fromArray([
@@ -67,7 +120,14 @@ let default = StorybookExt.make(
       "state": {
         "control": {
           "type": "select",
-          "options": ["OpponentTurn", "MyTurnInit"],
+          "options": [
+            "OpponentTurn",
+            "MyTurnInit",
+            "MoveSelection(Normal)",
+            "MoveSelection(InfAfterStep)",
+            "MoveSelection(Tam)",
+            "StepOverMoveSelection",
+          ],
         },
       },
       "type": {
