@@ -4,6 +4,7 @@ open Belt
 let default = StorybookExt.make(
   (
     props: {
+      "state": string,
       "type": string,
       "row": int,
       "col": int,
@@ -14,7 +15,11 @@ let default = StorybookExt.make(
     },
   ) =>
     <Field
-      state={Field.MyTurnInit}
+      state={switch props["state"] {
+      | "OpponentTurn" => Field.OpponentTurn
+      | "MyTurnInit" => Field.MyTurnInit
+      | _ => Js.Exn.raiseError("unreachable")
+      }}
       pieces={Map.String.fromArray([
         (
           "key",
@@ -59,6 +64,12 @@ let default = StorybookExt.make(
   {
     "title": "Field",
     "argTypes": {
+      "state": {
+        "control": {
+          "type": "select",
+          "options": ["OpponentTurn", "MyTurnInit"],
+        },
+      },
       "type": {
         "control": {
           "type": "select",
@@ -106,6 +117,7 @@ let default = StorybookExt.make(
       },
     },
     "args": {
+      "state": "MyTurnInit",
       "type": "OnBoard",
       "row": 0,
       "col": 0,
