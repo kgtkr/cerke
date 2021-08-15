@@ -21,6 +21,8 @@ type styles = {
   opponentTurnContainer: string,
   selection: string,
   guide: string,
+  stepOverMoveSelectionTarget: string,
+  overlay: string,
 }
 @module("@styles/components/Field.scss") external styles: styles = "default"
 
@@ -113,11 +115,7 @@ type state =
   | OpponentTurn
   | MyTurnInit
   | MoveSelection({target: key, movable: list<Movable.t>})
-  | StepOverMoveSelection({
-      target: key,
-      waypoint: Entities.Coord.t,
-      movable: list<Entities.Coord.t>,
-    })
+  | StepOverMoveSelection({target: key, waypoint: Entities.Coord.t, movable: list<Movable.t>})
 
 let toPath = piece => {
   "images/piece/" ++
@@ -154,6 +152,10 @@ let make = (~pieces: Map.String.t<FieldPiece.t>, ~state: state) => {
     ->Map.String.toArray
     ->Array.map(((key, fieldPiece)) =>
       <Components_ImageSprite
+        className={switch state {
+        | StepOverMoveSelection({target}) if key == target => styles.stepOverMoveSelectionTarget
+        | _ => ""
+        }}
         key={key}
         src={toPath(FieldPiece.toPiece(fieldPiece))}
         width=60.
@@ -207,6 +209,55 @@ let make = (~pieces: Map.String.t<FieldPiece.t>, ~state: state) => {
           )
           ->List.toArray
           ->React.array}
+        </>
+      }
+    | StepOverMoveSelection({target, waypoint, movable}) => {
+        let target = pieces->Map.String.getExn(target)
+        <>
+          <div className={styles.overlay} />
+          <Components_ImageSprite
+            src={toPath(FieldPiece.toPiece(target))}
+            width=60.
+            height=60.
+            translateX={FieldPiece.colIndexToX(waypoint.col) -. FieldPiece._PIECE_PAD}
+            translateY={FieldPiece.rowIndexToY(waypoint.row) +. FieldPiece._PIECE_PAD}
+          />
+          <Components_ImageSprite
+            src={"images/selection.png"}
+            className={styles.selection}
+            width=60.
+            height=60.
+            translateX={FieldPiece.colIndexToX(waypoint.col) -. FieldPiece._PIECE_PAD}
+            translateY={FieldPiece.rowIndexToY(waypoint.row) +. FieldPiece._PIECE_PAD}
+          />
+          {movable
+          ->List.mapWithIndex((i, movable) =>
+            <Components_ImageSprite
+              key={Int.toString(i)}
+              src={"images/" ++
+              switch movable.kind {
+              | Normal => "ct"
+              | InfAfterStep => "ct2"
+              | Tam => "ctam"
+              } ++ ".png"}
+              className={styles.guide}
+              width=60.
+              height=60.
+              translateX={FieldPiece.colIndexToX(movable.coord.col)}
+              translateY={FieldPiece.rowIndexToY(movable.coord.row)}
+              button={Components_ImageSprite.mkButtonProps()}
+            />
+          )
+          ->List.toArray
+          ->React.array}
+          <Components_ImageSprite
+            src={"images/piece/bmun.png"}
+            width=80.
+            height=80.
+            translateX={526.}
+            translateY={780.}
+            button={Components_ImageSprite.mkButtonProps()}
+          />
         </>
       }
     | _ => React.null

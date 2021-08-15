@@ -66,8 +66,11 @@ let default = StorybookExt.make(
           },
           movable: list{
             {
-              row: Option.getExn(Entities.RowIndex.fromInt(1)),
-              col: Option.getExn(Entities.ColIndex.fromInt(1)),
+              coord: {
+                row: Option.getExn(Entities.RowIndex.fromInt(2)),
+                col: Option.getExn(Entities.ColIndex.fromInt(2)),
+              },
+              kind: Field.Movable.Normal,
             },
           },
         })
