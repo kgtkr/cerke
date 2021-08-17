@@ -15,7 +15,7 @@
   "package-specs": [
     {
       "module": "es6",
-      "in-source": false
+      "in-source": true
     }
   ],
   "namespace": true,
@@ -34,6 +34,6 @@
     "decco/ppx"
   ],
   "bs-dev-dependencies": [],
-  "suffix": ".bs.js",
+  "suffix": ".js",
   "external-stdlib": "@rescript/std"
 }

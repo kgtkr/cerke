@@ -54,5 +54,8 @@
     "relude": "^0.65.0",
     "relude-random": "^0.2.0",
     "rescript-recoil": "^2.1.0"
-  }
+  },
+  "workspaces": [
+    "cerke-components"
+  ]
 }

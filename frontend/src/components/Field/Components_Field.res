@@ -24,7 +24,37 @@ type styles = {
   stepOverMoveSelectionTarget: string,
   overlay: string,
 }
-@module("@styles/components/Field.scss") external styles: styles = "default"
+@module("./Field.scss") external styles: styles = "default"
+
+module Images = {
+  @module("./selection.png") external selection: string = "default"
+  @module("./ct.png") external ct: string = "default"
+  @module("./ct2.png") external ct2: string = "default"
+  @module("./ctam.png") external ctam: string = "default"
+  @module("../piece/tam.png") external tam: string = "default"
+  @module("../piece/bdau.png") external bdau: string = "default"
+  @module("../piece/bgua.png") external bgua: string = "default"
+  @module("../piece/bio.png") external bio: string = "default"
+  @module("../piece/bkauk.png") external bkauk: string = "default"
+  @module("../piece/bkaun.png") external bkaun: string = "default"
+  @module("../piece/bkua.png") external bkua: string = "default"
+  @module("../piece/bmaun.png") external bmaun: string = "default"
+  @module("../piece/bmun.png") external bmun: string = "default"
+  @module("../piece/bnuak.png") external bnuak: string = "default"
+  @module("../piece/btuk.png") external btuk: string = "default"
+  @module("../piece/buai.png") external buai: string = "default"
+  @module("../piece/rdau.png") external rdau: string = "default"
+  @module("../piece/rgua.png") external rgua: string = "default"
+  @module("../piece/rio.png") external rio: string = "default"
+  @module("../piece/rkauk.png") external rkauk: string = "default"
+  @module("../piece/rkaun.png") external rkaun: string = "default"
+  @module("../piece/rkua.png") external rkua: string = "default"
+  @module("../piece/rmaun.png") external rmaun: string = "default"
+  @module("../piece/rmun.png") external rmun: string = "default"
+  @module("../piece/rnuak.png") external rnuak: string = "default"
+  @module("../piece/rtuk.png") external rtuk: string = "default"
+  @module("../piece/ruai.png") external ruai: string = "default"
+}
 
 module FieldPiece = {
   type t =
@@ -118,7 +148,31 @@ type state =
   | StepOverMoveSelection({target: key, waypoint: Entities.Coord.t, movable: list<Movable.t>})
 
 let toPath = piece => {
-  "images/piece/" ++
+  switch piece {
+  | Entities.Piece.Tam2 => Images.tam
+  | Entities.Piece.NonTam2Piece(nonTam2Piece) =>
+    switch nonTam2Piece {
+    | {color: Huok2, prof: Dau2} => Images.bdau
+    | {color: Kok1, prof: Dau2} => Images.rdau
+    | {color: Huok2, prof: Gua2} => Images.bgua
+    | {color: Kok1, prof: Gua2} => Images.rgua
+    | {color: Huok2, prof: Io} => Images.bio
+    | {color: Kok1, prof: Io} => Images.rio
+    | {color: Huok2, prof: Kauk2} => Images.bkauk
+    | {color: Kok1, prof: Kauk2} => Images.rkauk
+    | {color: Huok2, prof: Kaun1} => Images.bkaun
+    | {color: Kok1, prof: Kaun1} => Images.rkaun
+    | {color: Huok2, prof: Kua2} => Images.bkua
+    | {color: Kok1, prof: Kua2} => Images.rkua
+    | {color: Huok2, prof: Nuak1} => Images.bnuak
+    | {color: Kok1, prof: Nuak1} => Images.rnuak
+    | {color: Huok2, prof: Tuk2} => Images.btuk
+    | {color: Kok1, prof: Tuk2} => Images.rtuk
+    | {color: Huok2, prof: Uai1} => Images.buai
+    | {color: Kok1, prof: Uai1} => Images.ruai
+    }
+  }
+  /* "images/piece/" ++
   switch piece {
   | Entities.Piece.NonTam2Piece(nonTam2Piece) =>
     switch nonTam2Piece.color {
@@ -126,7 +180,6 @@ let toPath = piece => {
     | Entities.Color.Kok1 => "r"
     } ++
     switch nonTam2Piece.prof {
-    | Entities.Profession.Dau2 => "dau"
     | Entities.Profession.Gua2 => "gua"
     | Entities.Profession.Io => "io"
     | Entities.Profession.Kauk2 => "kauk"
@@ -137,8 +190,7 @@ let toPath = piece => {
     | Entities.Profession.Tuk2 => "tuk"
     | Entities.Profession.Uai1 => "uai"
     }
-  | Entities.Piece.Tam2 => "tam"
-  } ++ ".png"
+  } ++ ".png"*/
 }
 
 @react.component
@@ -180,7 +232,7 @@ let make = (~pieces: Map.String.t<FieldPiece.t>, ~state: state) => {
         let target = pieces->Map.String.getExn(target)
         <>
           <Components_ImageSprite
-            src={"images/selection.png"}
+            src={Images.selection}
             className={styles.selection}
             width=60.
             height=60.
@@ -193,12 +245,11 @@ let make = (~pieces: Map.String.t<FieldPiece.t>, ~state: state) => {
           ->List.mapWithIndex((i, movable) =>
             <Components_ImageSprite
               key={Int.toString(i)}
-              src={"images/" ++
-              switch movable.kind {
-              | Normal => "ct"
-              | InfAfterStep => "ct2"
-              | Tam => "ctam"
-              } ++ ".png"}
+              src={switch movable.kind {
+              | Normal => Images.ct
+              | InfAfterStep => Images.ct2
+              | Tam => Images.ctam
+              }}
               className={styles.guide}
               width=60.
               height=60.
@@ -223,7 +274,7 @@ let make = (~pieces: Map.String.t<FieldPiece.t>, ~state: state) => {
             translateY={FieldPiece.rowIndexToY(waypoint.row) +. FieldPiece._PIECE_PAD}
           />
           <Components_ImageSprite
-            src={"images/selection.png"}
+            src={Images.selection}
             className={styles.selection}
             width=60.
             height=60.
@@ -234,12 +285,11 @@ let make = (~pieces: Map.String.t<FieldPiece.t>, ~state: state) => {
           ->List.mapWithIndex((i, movable) =>
             <Components_ImageSprite
               key={Int.toString(i)}
-              src={"images/" ++
-              switch movable.kind {
-              | Normal => "ct"
-              | InfAfterStep => "ct2"
-              | Tam => "ctam"
-              } ++ ".png"}
+              src={switch movable.kind {
+              | Normal => Images.ct
+              | InfAfterStep => Images.ct2
+              | Tam => Images.ctam
+              }}
               className={styles.guide}
               width=60.
               height=60.
@@ -251,7 +301,7 @@ let make = (~pieces: Map.String.t<FieldPiece.t>, ~state: state) => {
           ->List.toArray
           ->React.array}
           <Components_ImageSprite
-            src={"images/piece/bmun.png"}
+            src={Images.bmun}
             width=80.
             height=80.
             translateX={526.}

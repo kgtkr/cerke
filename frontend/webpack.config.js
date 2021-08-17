@@ -13,7 +13,7 @@ function match(x, map) {
 module.exports = (env, argv) => {
   return {
     entry: {
-      main: ["./lib/es6/src/Index.bs.js"],
+      main: ["./src/Index.js"],
     },
     output: {
       filename: "[name].[chunkhash].js",
@@ -22,9 +22,6 @@ module.exports = (env, argv) => {
     },
     resolve: {
       extensions: [".js"],
-      alias: {
-        "@styles": path.resolve(__dirname, "styles"),
-      },
     },
     plugins: [
       new HtmlWebpackPlugin({
@@ -45,14 +42,6 @@ module.exports = (env, argv) => {
           theme_color: "#00ff00",
           icons: {},
         },
-      }),
-      new CopyWebpackPlugin({
-        patterns: [
-          {
-            from: "public",
-            to: "",
-          },
-        ],
       }),
       new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
       ...match(argv.mode, {
@@ -77,7 +66,6 @@ module.exports = (env, argv) => {
             {
               loader: "css-loader",
               options: {
-                url: false,
                 modules: true,
               },
             },
@@ -85,6 +73,10 @@ module.exports = (env, argv) => {
               loader: "sass-loader",
             },
           ],
+        },
+        {
+          test: /\.png$/,
+          type: "asset",
         },
       ],
     },

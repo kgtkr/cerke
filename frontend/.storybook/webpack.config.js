@@ -10,7 +10,6 @@ module.exports = async ({ config, mode }) => {
       {
         loader: "css-loader",
         options: {
-          url: false,
           modules: true,
         },
       },
@@ -19,10 +18,5 @@ module.exports = async ({ config, mode }) => {
       },
     ],
   });
-
-  config.resolve.alias = {
-    "@styles": path.resolve(__dirname, "../styles"),
-  };
-
   return config;
 };

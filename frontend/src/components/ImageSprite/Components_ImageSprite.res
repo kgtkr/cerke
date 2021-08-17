@@ -1,7 +1,7 @@
 open Belt
 
 type styles = {container: string}
-@module("@styles/components/ImageSprite.scss") external styles: styles = "default"
+@module("./ImageSprite.scss") external styles: styles = "default"
 
 type buttonProps = {onClick: unit => unit, disabled: bool}
 

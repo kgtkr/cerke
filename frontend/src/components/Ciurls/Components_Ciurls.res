@@ -31,7 +31,12 @@ let makeCiurlStates = count =>
   |> Generator.flatMap(xs => ArrayExt.shuffle(xs))
 
 type styles = {container: string}
-@module("@styles/components/Ciurls.scss") external styles: styles = "default"
+@module("./Ciurls.scss") external styles: styles = "default"
+
+module Images = {
+  @module("./ciurl_true.png") external ciurlTrue: string = "default"
+  @module("./ciurl_false.png") external ciurlFalse: string = "default"
+}
 
 @react.component
 let make = (~count, ~seed) => {
@@ -42,9 +47,9 @@ let make = (~count, ~seed) => {
       ciurlStates |> Array.mapi((i, ciurlState) =>
         <Components_ImageSprite
           src={if ciurlState.flag {
-            "images/ciurl_true.png"
+            Images.ciurlTrue
           } else {
-            "images/ciurl_false.png"
+            Images.ciurlFalse
           }}
           width=150.
           height=15.
