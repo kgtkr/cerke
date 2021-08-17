@@ -34,6 +34,6 @@
     "decco/ppx"
   ],
   "bs-dev-dependencies": [],
-  "refmt": 3,
-  "suffix": ".bs.js"
+  "suffix": ".bs.js",
+  "external-stdlib": "@rescript/std"
 }
