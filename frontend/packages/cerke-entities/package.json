@@ -19,7 +19,10 @@
     "build-ts:watch": "tsc -w --preserveWatchOutput"
   },
   "files": [
-    "src/",
-    "bsconfig.json"
+    "bsconfig.json",
+    "src/**/*.res",
+    "src/**/*.resi",
+    "src/**/*.js",
+    "src/**/*.gen.d.ts"
   ]
 }
