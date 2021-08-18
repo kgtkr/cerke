@@ -1,3 +1,4 @@
+@genType
 type t =
   | Nuak1
   | Kauk2
@@ -10,6 +11,7 @@ type t =
   | Uai1
   | Io
 
+@genType
 let toString = x =>
   switch x {
   | Nuak1 => "Nuak1"
@@ -24,6 +26,7 @@ let toString = x =>
   | Io => "Io"
   }
 
+@genType
 let fromString = s =>
   switch s {
   | "Nuak1" => Some(Nuak1)
