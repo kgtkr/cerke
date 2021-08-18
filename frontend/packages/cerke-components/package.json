@@ -1,0 +1,7 @@
+{
+  "name": "cerke-components",
+  "version": "1.0.0",
+  "main": "src/Index.js",
+  "devDependencies": {},
+  "scripts": {}
+}

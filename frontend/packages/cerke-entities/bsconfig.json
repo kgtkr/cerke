@@ -1,0 +1,35 @@
+{
+  "$schema": "https://raw.githubusercontent.com/rescript-lang/rescript-compiler/master/docs/docson/build-schema.json",
+  "name": "cerke-entities",
+  "sources": {
+    "dir": "src",
+    "subdirs": true,
+    "public": [
+      "CerkeEntities"
+    ]
+  },
+  "bsc-flags": [
+    "-bs-super-errors",
+    "-bs-no-version-header"
+  ],
+  "package-specs": [
+    {
+      "module": "es6",
+      "in-source": true
+    }
+  ],
+  "namespace": true,
+  "bs-dependencies": [],
+  "ppx-flags": [],
+  "bs-dev-dependencies": [],
+  "suffix": ".js",
+  "external-stdlib": "@rescript/std",
+  "gentypeconfig": {
+    "language": "typescript",
+    "shims": {},
+    "debug": {
+      "all": false,
+      "basic": false
+    }
+  }
+}
