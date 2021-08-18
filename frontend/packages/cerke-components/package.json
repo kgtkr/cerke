@@ -39,7 +39,8 @@
     "start-sb-without-build": "start-storybook -p 6006",
     "build-sb-without-build": "build-storybook",
     "start-sb": "npm-run-all --npm-path npm --parallel build-res:watch start-sb-without-build",
-    "build-sb": "npm-run-all --npm-path npm build-res build-sb-without-build"
+    "build-sb": "npm-run-all --npm-path npm build-res build-sb-without-build",
+    "clean": "rescript clean && rm -rf src/*.gen.*"
   },
   "files": [
     "bsconfig.json",

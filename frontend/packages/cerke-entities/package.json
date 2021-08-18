@@ -16,7 +16,8 @@
     "build-res": "rescript build -with-deps",
     "build-res:watch": "rescript build -with-deps -w",
     "build-ts": "tsc",
-    "build-ts:watch": "tsc -w --preserveWatchOutput"
+    "build-ts:watch": "tsc -w --preserveWatchOutput",
+    "clean": "rescript clean && rm -rf src/*.gen.*"
   },
   "files": [
     "bsconfig.json",
