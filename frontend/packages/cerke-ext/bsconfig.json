@@ -1,6 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/rescript-lang/rescript-compiler/master/docs/docson/build-schema.json",
-  "name": "cerke-components",
+  "name": "cerke-ext",
   "sources": {
     "dir": "src",
     "subdirs": true
@@ -14,26 +14,20 @@
       "module": "es6",
       "in-source": true,
       "public": [
-        "Ciurls",
-        "Scoreboard",
-        "WaterEntry",
-        "Field",
-        "ImageSprite"
+        "ArrayExt",
+        "GeneratorExt",
+        "OptionExt",
+        "TraversableExt"
       ]
     }
   ],
   "namespace": true,
   "bs-dependencies": [
-    "@rescript/react",
     "bs-bastet",
     "relude",
-    "relude-random",
-    "cerke-entities",
-    "cerke-ext"
+    "relude-random"
   ],
-  "ppx-flags": [
-    "bs-let/ppx"
-  ],
+  "ppx-flags": [],
   "bs-dev-dependencies": [],
   "suffix": ".js",
   "external-stdlib": "@rescript/std",
@@ -44,8 +38,5 @@
       "all": false,
       "basic": false
     }
-  },
-  "reason": {
-    "react-jsx": 3
   }
 }

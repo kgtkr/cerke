@@ -1,4 +1,5 @@
 open ReludeRandom
+open CerkeExt
 
 type ciurlState = {
   flag: bool,

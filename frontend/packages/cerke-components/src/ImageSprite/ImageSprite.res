@@ -1,4 +1,5 @@
 open Belt
+open CerkeExt
 
 type styles = {container: string}
 @module("./ImageSprite.scss") external styles: styles = "default"

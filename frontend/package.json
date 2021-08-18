@@ -57,6 +57,7 @@
   },
   "workspaces": [
     "packages/cerke-components",
-    "packages/cerke-entities"
+    "packages/cerke-entities",
+    "packages/cerke-ext"
   ]
 }
