@@ -5,4 +5,7 @@ module.exports = {
     "@storybook/addon-links",
     "@storybook/addon-postcss",
   ],
+  core: {
+    builder: "webpack5",
+  },
 };
