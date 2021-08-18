@@ -3,10 +3,7 @@
   "name": "cerke-entities",
   "sources": {
     "dir": "src",
-    "subdirs": true,
-    "public": [
-      "CerkeEntities"
-    ]
+    "subdirs": true
   },
   "bsc-flags": [
     "-bs-super-errors",
