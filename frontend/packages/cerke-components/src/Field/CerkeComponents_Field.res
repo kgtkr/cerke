@@ -58,8 +58,8 @@ module Images = {
 
 module FieldPiece = {
   type t =
-    | OnBoard({piece: Entities.Piece.t, coord: Entities.Coord.t})
-    | Captured({piece: Entities.NonTam2Piece.t, index: int})
+    | OnBoard({piece: CerkeEntities.Piece.t, coord: CerkeEntities.Coord.t})
+    | Captured({piece: CerkeEntities.NonTam2Piece.t, index: int})
 
   let _BOARD_SIZE = 631.
   let _CAPTURED_HEIGHT = 140.
@@ -71,11 +71,11 @@ module FieldPiece = {
   let toPiece = piece =>
     switch piece {
     | OnBoard({piece}) => piece
-    | Captured({piece}) => Entities.Piece.NonTam2Piece(piece)
+    | Captured({piece}) => CerkeEntities.Piece.NonTam2Piece(piece)
     }
 
   let colIndexToX = colIndex =>
-    _SQUARE_SIZE *. Int.toFloat(Entities.ColIndex.toInt(colIndex)) +. _PIECE_PAD
+    _SQUARE_SIZE *. Int.toFloat(CerkeEntities.ColIndex.toInt(colIndex)) +. _PIECE_PAD
 
   let toX = piece =>
     switch piece {
@@ -90,7 +90,9 @@ module FieldPiece = {
     }
 
   let rowIndexToY = rowIndex =>
-    _CAPTURED_HEIGHT +. _SQUARE_SIZE *. Int.toFloat(Entities.RowIndex.toInt(rowIndex)) +. _PIECE_PAD
+    _CAPTURED_HEIGHT +.
+    _SQUARE_SIZE *. Int.toFloat(CerkeEntities.RowIndex.toInt(rowIndex)) +.
+    _PIECE_PAD
 
   let toY = piece =>
     switch piece {
@@ -134,7 +136,7 @@ module FieldPiece = {
 module Movable = {
   type kind = Normal | InfAfterStep | Tam
   type t = {
-    coord: Entities.Coord.t,
+    coord: CerkeEntities.Coord.t,
     kind: kind,
   }
 }
@@ -145,12 +147,12 @@ type state =
   | OpponentTurn
   | MyTurnInit
   | MoveSelection({target: key, movable: list<Movable.t>})
-  | StepOverMoveSelection({target: key, waypoint: Entities.Coord.t, movable: list<Movable.t>})
+  | StepOverMoveSelection({target: key, waypoint: CerkeEntities.Coord.t, movable: list<Movable.t>})
 
 let toPath = piece => {
   switch piece {
-  | Entities.Piece.Tam2 => Images.tam
-  | Entities.Piece.NonTam2Piece(nonTam2Piece) =>
+  | CerkeEntities.Piece.Tam2 => Images.tam
+  | CerkeEntities.Piece.NonTam2Piece(nonTam2Piece) =>
     switch nonTam2Piece {
     | {color: Huok2, prof: Dau2} => Images.bdau
     | {color: Kok1, prof: Dau2} => Images.rdau
@@ -174,21 +176,21 @@ let toPath = piece => {
   }
   /* "images/piece/" ++
   switch piece {
-  | Entities.Piece.NonTam2Piece(nonTam2Piece) =>
+  | CerkeEntities.Piece.NonTam2Piece(nonTam2Piece) =>
     switch nonTam2Piece.color {
-    | Entities.Color.Huok2 => "b"
-    | Entities.Color.Kok1 => "r"
+    | CerkeEntities.Color.Huok2 => "b"
+    | CerkeEntities.Color.Kok1 => "r"
     } ++
     switch nonTam2Piece.prof {
-    | Entities.Profession.Gua2 => "gua"
-    | Entities.Profession.Io => "io"
-    | Entities.Profession.Kauk2 => "kauk"
-    | Entities.Profession.Kaun1 => "kaun"
-    | Entities.Profession.Kua2 => "kua"
-    | Entities.Profession.Maun1 => "maun"
-    | Entities.Profession.Nuak1 => "nuak"
-    | Entities.Profession.Tuk2 => "tuk"
-    | Entities.Profession.Uai1 => "uai"
+    | CerkeEntities.Profession.Gua2 => "gua"
+    | CerkeEntities.Profession.Io => "io"
+    | CerkeEntities.Profession.Kauk2 => "kauk"
+    | CerkeEntities.Profession.Kaun1 => "kaun"
+    | CerkeEntities.Profession.Kua2 => "kua"
+    | CerkeEntities.Profession.Maun1 => "maun"
+    | CerkeEntities.Profession.Nuak1 => "nuak"
+    | CerkeEntities.Profession.Tuk2 => "tuk"
+    | CerkeEntities.Profession.Uai1 => "uai"
     }
   } ++ ".png"*/
 }
@@ -203,7 +205,7 @@ let make = (~pieces: Map.String.t<FieldPiece.t>, ~state: state) => {
     {pieces
     ->Map.String.toArray
     ->Array.map(((key, fieldPiece)) =>
-      <Components_ImageSprite
+      <CerkeComponents_ImageSprite
         className={switch state {
         | StepOverMoveSelection({target}) if key == target => styles.stepOverMoveSelectionTarget
         | _ => ""
@@ -222,7 +224,7 @@ let make = (~pieces: Map.String.t<FieldPiece.t>, ~state: state) => {
         | _ => false
         } &&
         FieldPiece.notDownwardPiece(fieldPiece)
-          ? Some(Components_ImageSprite.mkButtonProps())
+          ? Some(CerkeComponents_ImageSprite.mkButtonProps())
           : None}
       />
     )
@@ -231,7 +233,7 @@ let make = (~pieces: Map.String.t<FieldPiece.t>, ~state: state) => {
     | MoveSelection({target, movable}) => {
         let target = pieces->Map.String.getExn(target)
         <>
-          <Components_ImageSprite
+          <CerkeComponents_ImageSprite
             src={Images.selection}
             className={styles.selection}
             width=60.
@@ -239,11 +241,11 @@ let make = (~pieces: Map.String.t<FieldPiece.t>, ~state: state) => {
             translateX={FieldPiece.toX(target)}
             translateY={FieldPiece.toY(target)}
             rotate={FieldPiece.toRotate(target)}
-            button={Components_ImageSprite.mkButtonProps()}
+            button={CerkeComponents_ImageSprite.mkButtonProps()}
           />
           {movable
           ->List.mapWithIndex((i, movable) =>
-            <Components_ImageSprite
+            <CerkeComponents_ImageSprite
               key={Int.toString(i)}
               src={switch movable.kind {
               | Normal => Images.ct
@@ -255,7 +257,7 @@ let make = (~pieces: Map.String.t<FieldPiece.t>, ~state: state) => {
               height=60.
               translateX={FieldPiece.colIndexToX(movable.coord.col)}
               translateY={FieldPiece.rowIndexToY(movable.coord.row)}
-              button={Components_ImageSprite.mkButtonProps()}
+              button={CerkeComponents_ImageSprite.mkButtonProps()}
             />
           )
           ->List.toArray
@@ -266,14 +268,14 @@ let make = (~pieces: Map.String.t<FieldPiece.t>, ~state: state) => {
         let target = pieces->Map.String.getExn(target)
         <>
           <div className={styles.overlay} />
-          <Components_ImageSprite
+          <CerkeComponents_ImageSprite
             src={toPath(FieldPiece.toPiece(target))}
             width=60.
             height=60.
             translateX={FieldPiece.colIndexToX(waypoint.col) -. FieldPiece._PIECE_PAD}
             translateY={FieldPiece.rowIndexToY(waypoint.row) +. FieldPiece._PIECE_PAD}
           />
-          <Components_ImageSprite
+          <CerkeComponents_ImageSprite
             src={Images.selection}
             className={styles.selection}
             width=60.
@@ -283,7 +285,7 @@ let make = (~pieces: Map.String.t<FieldPiece.t>, ~state: state) => {
           />
           {movable
           ->List.mapWithIndex((i, movable) =>
-            <Components_ImageSprite
+            <CerkeComponents_ImageSprite
               key={Int.toString(i)}
               src={switch movable.kind {
               | Normal => Images.ct
@@ -295,18 +297,18 @@ let make = (~pieces: Map.String.t<FieldPiece.t>, ~state: state) => {
               height=60.
               translateX={FieldPiece.colIndexToX(movable.coord.col)}
               translateY={FieldPiece.rowIndexToY(movable.coord.row)}
-              button={Components_ImageSprite.mkButtonProps()}
+              button={CerkeComponents_ImageSprite.mkButtonProps()}
             />
           )
           ->List.toArray
           ->React.array}
-          <Components_ImageSprite
+          <CerkeComponents_ImageSprite
             src={Images.bmun}
             width=80.
             height=80.
             translateX={526.}
             translateY={780.}
-            button={Components_ImageSprite.mkButtonProps()}
+            button={CerkeComponents_ImageSprite.mkButtonProps()}
           />
         </>
       }

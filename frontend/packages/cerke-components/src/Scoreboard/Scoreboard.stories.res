@@ -1,12 +1,12 @@
 open Belt
-open Components
+open CerkeComponents
 
 let default = StorybookExt.make(
   (props: {"log2Rate": int, "score": int, "season": string}) =>
     <Scoreboard
-      log2Rate={props["log2Rate"] |> Entities.Log2Rate.fromInt |> Option.getExn}
-      score={props["score"] |> Entities.Score.fromInt |> Option.getExn}
-      season={props["season"] |> Entities.Season.fromString |> Option.getExn}
+      log2Rate={props["log2Rate"] |> CerkeEntities.Log2Rate.fromInt |> Option.getExn}
+      score={props["score"] |> CerkeEntities.Score.fromInt |> Option.getExn}
+      season={props["season"] |> CerkeEntities.Season.fromString |> Option.getExn}
     />,
   {
     "title": "Scoreboard",
@@ -16,14 +16,14 @@ let default = StorybookExt.make(
       "season": {
         "control": {
           "type": "select",
-          "options": Entities.Season.seasons -> Array.map(Entities.Season.toString),
-        }
+          "options": CerkeEntities.Season.seasons->Array.map(CerkeEntities.Season.toString),
+        },
       },
     },
     "args": {
       "log2Rate": 0,
       "score": 20,
-      "season": "Spring"
+      "season": "Spring",
     },
   },
 )

@@ -20,7 +20,7 @@ let make = (~className=?, ~onHidden=?) => {
   <div ?className>
     {if show {
       <div className=styles.animationContainer onAnimationEnd={handleAnimationEnd}>
-        <Components_ImageSprite
+        <CerkeComponents_ImageSprite
           src={Images.waterEntry} width=500. translateX=250. translateY=134.289
         />
       </div>

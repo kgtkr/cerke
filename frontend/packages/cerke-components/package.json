@@ -1,7 +1,53 @@
 {
   "name": "cerke-components",
-  "version": "1.0.0",
-  "main": "src/Index.js",
-  "devDependencies": {},
-  "scripts": {}
+  "version": "0.1.0",
+  "devDependencies": {
+    "gentype": "^4.1.0",
+    "npm-run-all": "^4.1.5",
+    "rescript": "^9.1.4",
+    "typescript": "^4.3.5",
+    "@storybook/addon-essentials": "^6.2.9",
+    "@storybook/addon-links": "^6.2.9",
+    "@storybook/addon-postcss": "^2.0.0",
+    "@storybook/react": "^6.2.9",
+    "bs-let": "^0.1.16",
+    "css-loader": "^5.2.6",
+    "ppx-deriving": "^44.2.0",
+    "sass": "^1.34.1",
+    "sass-loader": "^12.1.0",
+    "style-loader": "^2.0.0",
+    "webpack": "^5.38.1"
+  },
+  "dependencies": {
+    "cerke-entities": "*",
+    "@rescript/std": "^9.1.3",
+    "@rescript/react": "^0.10.3",
+    "bisect_ppx": "^2.6.2",
+    "bs-bastet": "^2.0.0",
+    "react": "*",
+    "react-dom": "*",
+    "relude": "^0.65.0",
+    "relude-random": "^0.2.0"
+  },
+  "scripts": {
+    "build:watch": "npm-run-all --npm-path npm --parallel build-res:watch build-ts:watch",
+    "build": "npm-run-all --npm-path npm build-res build-ts",
+    "build-res": "rescript build -with-deps",
+    "build-res:watch": "rescript build -with-deps -w",
+    "build-ts": "tsc",
+    "build-ts:watch": "tsc -w --preserveWatchOutput",
+    "start-sb-without-build": "start-storybook -p 6006",
+    "build-sb-without-build": "build-storybook",
+    "start-sb": "npm-run-all --npm-path npm --parallel build-res:watch start-sb-without-build",
+    "build-sb": "npm-run-all --npm-path npm build-res build-sb-without-build"
+  },
+  "files": [
+    "bsconfig.json",
+    "src/**/*.res",
+    "src/**/*.resi",
+    "src/**/*.js",
+    "src/**/*.gen.d.ts",
+    "src/**/*.scss",
+    "src/**/*.png"
+  ]
 }

@@ -45,7 +45,7 @@ let make = (~count, ~seed) => {
   <div className=styles.container>
     {React.array(
       ciurlStates |> Array.mapi((i, ciurlState) =>
-        <Components_ImageSprite
+        <CerkeComponents_ImageSprite
           src={if ciurlState.flag {
             Images.ciurlTrue
           } else {

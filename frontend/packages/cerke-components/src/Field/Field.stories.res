@@ -1,4 +1,4 @@
-open Components
+open CerkeComponents
 open Belt
 
 let default = StorybookExt.make(
@@ -24,8 +24,8 @@ let default = StorybookExt.make(
           movable: list{
             {
               coord: {
-                row: Option.getExn(Entities.RowIndex.fromInt(1)),
-                col: Option.getExn(Entities.ColIndex.fromInt(1)),
+                row: Option.getExn(CerkeEntities.RowIndex.fromInt(1)),
+                col: Option.getExn(CerkeEntities.ColIndex.fromInt(1)),
               },
               kind: Field.Movable.Normal,
             },
@@ -37,8 +37,8 @@ let default = StorybookExt.make(
           movable: list{
             {
               coord: {
-                row: Option.getExn(Entities.RowIndex.fromInt(1)),
-                col: Option.getExn(Entities.ColIndex.fromInt(1)),
+                row: Option.getExn(CerkeEntities.RowIndex.fromInt(1)),
+                col: Option.getExn(CerkeEntities.ColIndex.fromInt(1)),
               },
               kind: Field.Movable.InfAfterStep,
             },
@@ -50,8 +50,8 @@ let default = StorybookExt.make(
           movable: list{
             {
               coord: {
-                row: Option.getExn(Entities.RowIndex.fromInt(1)),
-                col: Option.getExn(Entities.ColIndex.fromInt(1)),
+                row: Option.getExn(CerkeEntities.RowIndex.fromInt(1)),
+                col: Option.getExn(CerkeEntities.ColIndex.fromInt(1)),
               },
               kind: Field.Movable.Tam,
             },
@@ -61,14 +61,14 @@ let default = StorybookExt.make(
         Field.StepOverMoveSelection({
           target: "key",
           waypoint: {
-            row: Option.getExn(Entities.RowIndex.fromInt(1)),
-            col: Option.getExn(Entities.ColIndex.fromInt(1)),
+            row: Option.getExn(CerkeEntities.RowIndex.fromInt(1)),
+            col: Option.getExn(CerkeEntities.ColIndex.fromInt(1)),
           },
           movable: list{
             {
               coord: {
-                row: Option.getExn(Entities.RowIndex.fromInt(2)),
-                col: Option.getExn(Entities.ColIndex.fromInt(2)),
+                row: Option.getExn(CerkeEntities.RowIndex.fromInt(2)),
+                col: Option.getExn(CerkeEntities.ColIndex.fromInt(2)),
               },
               kind: Field.Movable.Normal,
             },
@@ -80,13 +80,13 @@ let default = StorybookExt.make(
         (
           "key",
           {
-            let row = Option.getExn(Entities.RowIndex.fromInt(props["row"]))
-            let col = Option.getExn(Entities.ColIndex.fromInt(props["col"]))
-            let color = Option.getExn(Entities.Color.fromString(props["color"]))
-            let prof = Entities.Profession.fromString(props["prof"])
-            let side = Option.getExn(Entities.Side.fromString(props["side"]))
+            let row = Option.getExn(CerkeEntities.RowIndex.fromInt(props["row"]))
+            let col = Option.getExn(CerkeEntities.ColIndex.fromInt(props["col"]))
+            let color = Option.getExn(CerkeEntities.Color.fromString(props["color"]))
+            let prof = CerkeEntities.Profession.fromString(props["prof"])
+            let side = Option.getExn(CerkeEntities.Side.fromString(props["side"]))
             let piece = prof->Option.map(prof => {
-              Entities.NonTam2Piece.color: color,
+              CerkeEntities.NonTam2Piece.color: color,
               prof: prof,
               side: side,
             })
@@ -95,8 +95,8 @@ let default = StorybookExt.make(
             | "OnBoard" =>
               Components.Field.FieldPiece.OnBoard({
                 piece: piece
-                ->Option.map(piece => Entities.Piece.NonTam2Piece(piece))
-                ->Option.getWithDefault(Entities.Piece.Tam2),
+                ->Option.map(piece => CerkeEntities.Piece.NonTam2Piece(piece))
+                ->Option.getWithDefault(CerkeEntities.Piece.Tam2),
                 coord: {
                   row: row,
                   col: col,
@@ -105,8 +105,8 @@ let default = StorybookExt.make(
             | "Captured" =>
               Components.Field.FieldPiece.Captured({
                 piece: piece->Option.getWithDefault({
-                  Entities.NonTam2Piece.color: color,
-                  prof: Entities.Profession.Nuak1,
+                  CerkeEntities.NonTam2Piece.color: color,
+                  prof: CerkeEntities.Profession.Nuak1,
                   side: side,
                 }),
                 index: props["index"],
@@ -145,8 +145,8 @@ let default = StorybookExt.make(
       "color": {
         "control": {
           "type": "select",
-          "options": [Entities.Color.Kok1, Entities.Color.Huok2]->Array.map(
-            Entities.Color.toString,
+          "options": [CerkeEntities.Color.Kok1, CerkeEntities.Color.Huok2]->Array.map(
+            CerkeEntities.Color.toString,
           ),
         },
       },
@@ -156,25 +156,25 @@ let default = StorybookExt.make(
           "options": Array.concat(
             ["Tam2"],
             [
-              Entities.Profession.Nuak1,
-              Entities.Profession.Kauk2,
-              Entities.Profession.Gua2,
-              Entities.Profession.Kaun1,
-              Entities.Profession.Dau2,
-              Entities.Profession.Maun1,
-              Entities.Profession.Kua2,
-              Entities.Profession.Tuk2,
-              Entities.Profession.Uai1,
-              Entities.Profession.Io,
-            ]->Array.map(Entities.Profession.toString),
+              CerkeEntities.Profession.Nuak1,
+              CerkeEntities.Profession.Kauk2,
+              CerkeEntities.Profession.Gua2,
+              CerkeEntities.Profession.Kaun1,
+              CerkeEntities.Profession.Dau2,
+              CerkeEntities.Profession.Maun1,
+              CerkeEntities.Profession.Kua2,
+              CerkeEntities.Profession.Tuk2,
+              CerkeEntities.Profession.Uai1,
+              CerkeEntities.Profession.Io,
+            ]->Array.map(CerkeEntities.Profession.toString),
           ),
         },
       },
       "side": {
         "control": {
           "type": "select",
-          "options": [Entities.Side.Upward, Entities.Side.Downward]->Array.map(
-            Entities.Side.toString,
+          "options": [CerkeEntities.Side.Upward, CerkeEntities.Side.Downward]->Array.map(
+            CerkeEntities.Side.toString,
           ),
         },
       },

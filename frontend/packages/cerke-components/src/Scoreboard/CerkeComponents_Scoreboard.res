@@ -9,19 +9,19 @@ module Images = {
 
 @react.component
 let make = (~season, ~score, ~log2Rate) => {
-  let iSeason = Entities.Season.toInt(season)
-  let iScore = Entities.Score.toInt(score)
-  let iLog2Rate = Entities.Log2Rate.toInt(log2Rate)
+  let iSeason = CerkeEntities.Season.toInt(season)
+  let iScore = CerkeEntities.Score.toInt(score)
+  let iLog2Rate = CerkeEntities.Log2Rate.toInt(log2Rate)
 
   <div className=styles.container>
-    <Components_ImageSprite
+    <CerkeComponents_ImageSprite
       src={Images.rtam}
       width=48.
       translateX={3.}
       translateY={512. +. -51. *. Js.Int.toFloat(iSeason)}
       transitionDuration={0.7 *. 0.8093}
     />
-    <Components_ImageSprite
+    <CerkeComponents_ImageSprite
       src={Images.woodSide}
       width=48.
       translateX=64.
@@ -29,7 +29,7 @@ let make = (~season, ~score, ~log2Rate) => {
       transitionDuration=0.8093
     />
     {if iLog2Rate != 0 {
-      <Components_ImageSprite
+      <CerkeComponents_ImageSprite
         src={Images.woodSide2}
         width=48.
         translateX={4.}
