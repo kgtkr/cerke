@@ -91,7 +91,6 @@ module.exports = (env, argv) => {
       },
     },
     devServer: {
-      contentBase: path.join(__dirname, "public"),
       port: process.env["PORT"] || 4000,
       historyApiFallback: true,
     },

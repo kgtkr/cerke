@@ -5,8 +5,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "storybook": "start-storybook -s ./public -p 6006",
-    "build-storybook": "build-storybook -s ./public",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook",
     "build-bs:watch": "rescript build -with-deps -w",
     "build-bs": "rescript build -with-deps",
     "start": "webpack serve --mode development",
