@@ -14,14 +14,14 @@ let make = (~season, ~score, ~log2Rate) => {
   let iLog2Rate = CerkeEntities.Log2Rate.toInt(log2Rate)
 
   <div className=styles.container>
-    <CerkeComponents_ImageSprite
+    <ImageSprite
       src={Images.rtam}
       width=48.
       translateX={3.}
       translateY={512. +. -51. *. Js.Int.toFloat(iSeason)}
       transitionDuration={0.7 *. 0.8093}
     />
-    <CerkeComponents_ImageSprite
+    <ImageSprite
       src={Images.woodSide}
       width=48.
       translateX=64.
@@ -29,7 +29,7 @@ let make = (~season, ~score, ~log2Rate) => {
       transitionDuration=0.8093
     />
     {if iLog2Rate != 0 {
-      <CerkeComponents_ImageSprite
+      <ImageSprite
         src={Images.woodSide2}
         width=48.
         translateX={4.}

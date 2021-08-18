@@ -20,9 +20,7 @@ let make = (~className=?, ~onHidden=?) => {
   <div ?className>
     {if show {
       <div className=styles.animationContainer onAnimationEnd={handleAnimationEnd}>
-        <CerkeComponents_ImageSprite
-          src={Images.waterEntry} width=500. translateX=250. translateY=134.289
-        />
+        <ImageSprite src={Images.waterEntry} width=500. translateX=250. translateY=134.289 />
       </div>
     } else {
       React.null

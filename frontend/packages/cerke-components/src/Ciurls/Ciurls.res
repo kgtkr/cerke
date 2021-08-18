@@ -38,14 +38,14 @@ module Images = {
   @module("./ciurl_false.png") external ciurlFalse: string = "default"
 }
 
-@react.component
+@genType.as("Ciurls") @react.component
 let make = (~count, ~seed) => {
   let (ciurlStates, _) = Generator.run(makeCiurlStates(count), Seed.fromInt(seed))
 
   <div className=styles.container>
     {React.array(
       ciurlStates |> Array.mapi((i, ciurlState) =>
-        <CerkeComponents_ImageSprite
+        <ImageSprite
           src={if ciurlState.flag {
             Images.ciurlTrue
           } else {

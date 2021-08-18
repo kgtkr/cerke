@@ -1,4 +1,3 @@
-open CerkeComponents
 open Belt
 
 let default = StorybookExt.make(
@@ -93,7 +92,7 @@ let default = StorybookExt.make(
 
             switch props["type"] {
             | "OnBoard" =>
-              Components.Field.FieldPiece.OnBoard({
+              CerkeComponents.Field.FieldPiece.OnBoard({
                 piece: piece
                 ->Option.map(piece => CerkeEntities.Piece.NonTam2Piece(piece))
                 ->Option.getWithDefault(CerkeEntities.Piece.Tam2),
@@ -103,7 +102,7 @@ let default = StorybookExt.make(
                 },
               })
             | "Captured" =>
-              Components.Field.FieldPiece.Captured({
+              CerkeComponents.Field.FieldPiece.Captured({
                 piece: piece->Option.getWithDefault({
                   CerkeEntities.NonTam2Piece.color: color,
                   prof: CerkeEntities.Profession.Nuak1,

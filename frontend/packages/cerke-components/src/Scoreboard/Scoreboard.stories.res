@@ -1,5 +1,4 @@
 open Belt
-open CerkeComponents
 
 let default = StorybookExt.make(
   (props: {"log2Rate": int, "score": int, "season": string}) =>

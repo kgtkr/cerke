@@ -1,5 +1,3 @@
-open CerkeComponents
-
 let default = StorybookExt.make(
   () => <WaterEntry />,
   {

@@ -3,10 +3,7 @@
   "name": "cerke-components",
   "sources": {
     "dir": "src",
-    "subdirs": true,
-    "public": [
-      "CerkeComponents"
-    ]
+    "subdirs": true
   },
   "bsc-flags": [
     "-bs-super-errors",
@@ -15,7 +12,14 @@
   "package-specs": [
     {
       "module": "es6",
-      "in-source": true
+      "in-source": true,
+      "public": [
+        "Ciurls",
+        "Scoreboard",
+        "WaterEntry",
+        "Field",
+        "ImageSprite"
+      ]
     }
   ],
   "namespace": true,
