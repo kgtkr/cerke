@@ -1,6 +1,6 @@
 open Belt
 
-let default = StorybookExt.make(
+let default = CerkeSb.make(
   (
     props: {
       "state": string,

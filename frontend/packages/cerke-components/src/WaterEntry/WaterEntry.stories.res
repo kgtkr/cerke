@@ -1,4 +1,4 @@
-let default = StorybookExt.make(
+let default = CerkeSb.make(
   () => <WaterEntry />,
   {
     "title": "WaterEntry",

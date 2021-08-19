@@ -1,4 +1,4 @@
-let default = StorybookExt.make(
+let default = CerkeSb.make(
   (props: {"count": int, "seed": int}) => <Ciurls count={props["count"]} seed={props["seed"]} />,
   {
     "title": "Ciurls",

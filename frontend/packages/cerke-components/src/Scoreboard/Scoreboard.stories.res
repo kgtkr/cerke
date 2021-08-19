@@ -1,6 +1,6 @@
 open Belt
 
-let default = StorybookExt.make(
+let default = CerkeSb.make(
   (props: {"log2Rate": int, "score": int, "season": string}) =>
     <Scoreboard
       log2Rate={props["log2Rate"] |> CerkeEntities.Log2Rate.fromInt |> Option.getExn}

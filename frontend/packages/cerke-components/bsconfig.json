@@ -29,7 +29,8 @@
     "relude",
     "relude-random",
     "cerke-entities",
-    "cerke-ext"
+    "cerke-ext",
+    "cerke-sb"
   ],
   "ppx-flags": [
     "bs-let/ppx"

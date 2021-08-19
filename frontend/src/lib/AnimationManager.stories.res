@@ -69,7 +69,7 @@ module AnimationManagerTest = {
   }
 }
 
-let default = StorybookExt.make(
+let default = CerkeSb.make(
   (_: {.}) => <AnimationManagerTest />,
   {
     "title": "AnimationManager",
