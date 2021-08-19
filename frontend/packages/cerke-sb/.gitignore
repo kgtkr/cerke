@@ -1,5 +1,5 @@
 /node_modules/
 /lib/
-/src/**/*.js
+/src/**/*.bs.js
 /.merlin
 /.bsb.lock

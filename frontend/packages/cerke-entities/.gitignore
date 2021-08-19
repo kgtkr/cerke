@@ -1,6 +1,7 @@
 /node_modules/
 /lib/
-/src/**/*.js
+/src/**/*.bs.js
+/src/**/*.gen.js
 /src/**/*.gen.tsx
 /src/**/*.gen.d.ts
 /.merlin

@@ -13,7 +13,7 @@ function match(x, map) {
 module.exports = (env, argv) => {
   return {
     entry: {
-      main: ["./src/Index.js"],
+      main: ["./src/Index.bs.js"],
     },
     output: {
       filename: "[name].[chunkhash].js",

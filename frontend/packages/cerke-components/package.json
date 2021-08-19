@@ -49,12 +49,13 @@
     "bsconfig.json",
     "src/**/*.res",
     "src/**/*.resi",
-    "src/**/*.js",
+    "src/**/*.bs.js",
+    "src/**/*.gen.js",
     "src/**/*.gen.d.ts",
     "src/**/*.scss",
     "src/**/*.png"
   ],
   "exports": {
-    "./*": "./src/*"
+    "./*": "./src/*.gen.js"
   }
 }
