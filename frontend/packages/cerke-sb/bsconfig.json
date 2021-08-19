@@ -1,6 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/rescript-lang/rescript-compiler/master/docs/docson/build-schema.json",
-  "name": "cerke-ext",
+  "name": "cerke-sb",
   "sources": {
     "dir": "src",
     "subdirs": true
@@ -14,19 +14,12 @@
       "module": "es6",
       "in-source": true,
       "public": [
-        "ArrayExt",
-        "GeneratorExt",
-        "OptionExt",
-        "TraversableExt"
+        "CerkeSb"
       ]
     }
   ],
   "namespace": true,
-  "bs-dependencies": [
-    "bs-bastet",
-    "relude",
-    "relude-random"
-  ],
+  "bs-dependencies": [],
   "ppx-flags": [],
   "bs-dev-dependencies": [],
   "suffix": ".js"
