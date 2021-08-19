@@ -1,6 +1,7 @@
 {
   "name": "cerke-ext",
   "version": "0.1.0",
+  "license": "MIT",
   "devDependencies": {
     "rescript": "^9.1.4"
   },
