@@ -172,6 +172,8 @@ let toPath = piece => {
     | {color: Kok1, prof: Tuk2} => Images.rtuk
     | {color: Huok2, prof: Uai1} => Images.buai
     | {color: Kok1, prof: Uai1} => Images.ruai
+    | {color: Huok2, prof: Maun1} => Images.bmaun
+    | {color: Kok1, prof: Maun1} => Images.bmaun
     }
   }
 }
