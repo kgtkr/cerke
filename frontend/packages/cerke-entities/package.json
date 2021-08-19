@@ -26,5 +26,8 @@
     "src/**/*.resi",
     "src/**/*.js",
     "src/**/*.gen.d.ts"
-  ]
+  ],
+  "exports": {
+    "./*": "./src/*"
+  }
 }
