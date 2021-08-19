@@ -1,9 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/rescript-lang/rescript-compiler/master/docs/docson/build-schema.json",
-  "name": "cerke-frontend",
-  "reason": {
-    "react-jsx": 3
-  },
+  "name": "cerke-components",
   "sources": {
     "dir": "src",
     "subdirs": true
@@ -15,25 +12,40 @@
   "package-specs": [
     {
       "module": "es6",
-      "in-source": true
+      "in-source": true,
+      "public": [
+        "Ciurls",
+        "Scoreboard",
+        "WaterEntry",
+        "Field",
+        "ImageSprite"
+      ]
     }
   ],
   "namespace": true,
   "bs-dependencies": [
     "@rescript/react",
-    "bs-webapi",
-    "decco",
     "bs-bastet",
     "relude",
     "relude-random",
     "reason-future",
-    "rescript-recoil"
+    "cerke-entities"
   ],
   "ppx-flags": [
-    "bs-let/ppx",
-    "decco/ppx"
+    "bs-let/ppx"
   ],
   "bs-dev-dependencies": [],
   "suffix": ".js",
-  "external-stdlib": "@rescript/std"
+  "external-stdlib": "@rescript/std",
+  "gentypeconfig": {
+    "language": "typescript",
+    "shims": {},
+    "debug": {
+      "all": false,
+      "basic": false
+    }
+  },
+  "reason": {
+    "react-jsx": 3
+  }
 }

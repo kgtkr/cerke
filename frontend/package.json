@@ -1,11 +1,12 @@
 {
   "name": "cerke-frontend",
-  "version": "1.0.0",
+  "private": true,
+  "version": "0.1.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "storybook": "start-storybook -s ./public -p 6006",
-    "build-storybook": "build-storybook -s ./public",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook",
     "build-bs:watch": "rescript build -with-deps -w",
     "build-bs": "rescript build -with-deps",
     "start": "webpack serve --mode development",
@@ -42,6 +43,7 @@
   },
   "dependencies": {
     "@rescript/react": "^0.10.3",
+    "@rescript/std": "^9.1.3",
     "bisect_ppx": "^2.6.2",
     "bs-bastet": "^2.0.0",
     "bs-webapi": "^0.19.1",
@@ -53,5 +55,9 @@
     "relude": "^0.65.0",
     "relude-random": "^0.2.0",
     "rescript-recoil": "^2.1.0"
-  }
+  },
+  "workspaces": [
+    "packages/cerke-components",
+    "packages/cerke-entities"
+  ]
 }
