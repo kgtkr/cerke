@@ -27,8 +27,5 @@
     "src/**/*.bs.js",
     "src/**/*.gen.js",
     "src/**/*.gen.d.ts"
-  ],
-  "exports": {
-    "./*": "./src/*.gen.js"
-  }
+  ]
 }

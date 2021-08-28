@@ -54,8 +54,5 @@
     "src/**/*.gen.d.ts",
     "src/**/*.scss",
     "src/**/*.png"
-  ],
-  "exports": {
-    "./*": "./src/*.gen.js"
-  }
+  ]
 }
