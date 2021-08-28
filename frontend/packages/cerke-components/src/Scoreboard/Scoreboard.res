@@ -4,7 +4,7 @@ type styles = {container: string}
 module Images = {
   @module("./wood_side.png") external woodSide: string = "default"
   @module("./wood_side2.png") external woodSide2: string = "default"
-  @module("../piece/rtam.png") external rtam: string = "default"
+  @module("./rtam.png") external rtam: string = "default"
 }
 
 @react.component

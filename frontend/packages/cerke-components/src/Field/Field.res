@@ -31,29 +31,7 @@ module Images = {
   @module("./ct.png") external ct: string = "default"
   @module("./ct2.png") external ct2: string = "default"
   @module("./ctam.png") external ctam: string = "default"
-  @module("../piece/tam.png") external tam: string = "default"
-  @module("../piece/bdau.png") external bdau: string = "default"
-  @module("../piece/bgua.png") external bgua: string = "default"
-  @module("../piece/bio.png") external bio: string = "default"
-  @module("../piece/bkauk.png") external bkauk: string = "default"
-  @module("../piece/bkaun.png") external bkaun: string = "default"
-  @module("../piece/bkua.png") external bkua: string = "default"
-  @module("../piece/bmaun.png") external bmaun: string = "default"
-  @module("../piece/bmun.png") external bmun: string = "default"
-  @module("../piece/bnuak.png") external bnuak: string = "default"
-  @module("../piece/btuk.png") external btuk: string = "default"
-  @module("../piece/buai.png") external buai: string = "default"
-  @module("../piece/rdau.png") external rdau: string = "default"
-  @module("../piece/rgua.png") external rgua: string = "default"
-  @module("../piece/rio.png") external rio: string = "default"
-  @module("../piece/rkauk.png") external rkauk: string = "default"
-  @module("../piece/rkaun.png") external rkaun: string = "default"
-  @module("../piece/rkua.png") external rkua: string = "default"
-  @module("../piece/rmaun.png") external rmaun: string = "default"
-  @module("../piece/rmun.png") external rmun: string = "default"
-  @module("../piece/rnuak.png") external rnuak: string = "default"
-  @module("../piece/rtuk.png") external rtuk: string = "default"
-  @module("../piece/ruai.png") external ruai: string = "default"
+  @module("./bmun.png") external bmun: string = "default"
 }
 
 module FieldPiece = {
@@ -149,35 +127,6 @@ type state =
   | MoveSelection({target: key, movable: list<Movable.t>})
   | StepOverMoveSelection({target: key, waypoint: CerkeEntities.Coord.t, movable: list<Movable.t>})
 
-let toPath = piece => {
-  switch piece {
-  | CerkeEntities.Piece.Tam2 => Images.tam
-  | CerkeEntities.Piece.NonTam2Piece(nonTam2Piece) =>
-    switch nonTam2Piece {
-    | {color: Huok2, prof: Dau2} => Images.bdau
-    | {color: Kok1, prof: Dau2} => Images.rdau
-    | {color: Huok2, prof: Gua2} => Images.bgua
-    | {color: Kok1, prof: Gua2} => Images.rgua
-    | {color: Huok2, prof: Io} => Images.bio
-    | {color: Kok1, prof: Io} => Images.rio
-    | {color: Huok2, prof: Kauk2} => Images.bkauk
-    | {color: Kok1, prof: Kauk2} => Images.rkauk
-    | {color: Huok2, prof: Kaun1} => Images.bkaun
-    | {color: Kok1, prof: Kaun1} => Images.rkaun
-    | {color: Huok2, prof: Kua2} => Images.bkua
-    | {color: Kok1, prof: Kua2} => Images.rkua
-    | {color: Huok2, prof: Nuak1} => Images.bnuak
-    | {color: Kok1, prof: Nuak1} => Images.rnuak
-    | {color: Huok2, prof: Tuk2} => Images.btuk
-    | {color: Kok1, prof: Tuk2} => Images.rtuk
-    | {color: Huok2, prof: Uai1} => Images.buai
-    | {color: Kok1, prof: Uai1} => Images.ruai
-    | {color: Huok2, prof: Maun1} => Images.bmaun
-    | {color: Kok1, prof: Maun1} => Images.bmaun
-    }
-  }
-}
-
 @react.component
 let make = (~pieces: Map.String.t<FieldPiece.t>, ~state: state) => {
   <div
@@ -194,7 +143,7 @@ let make = (~pieces: Map.String.t<FieldPiece.t>, ~state: state) => {
         | _ => ""
         }}
         key={key}
-        src={toPath(FieldPiece.toPiece(fieldPiece))}
+        src={Piece.toImagePath(FieldPiece.toPiece(fieldPiece))}
         width=60.
         height=60.
         translateX={FieldPiece.toX(fieldPiece)}
@@ -252,7 +201,7 @@ let make = (~pieces: Map.String.t<FieldPiece.t>, ~state: state) => {
         <>
           <div className={styles.overlay} />
           <ImageSprite
-            src={toPath(FieldPiece.toPiece(target))}
+            src={Piece.toImagePath(FieldPiece.toPiece(target))}
             width=60.
             height=60.
             translateX={FieldPiece.colIndexToX(waypoint.col) -. FieldPiece._PIECE_PAD}
