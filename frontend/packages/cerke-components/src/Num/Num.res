@@ -30,53 +30,50 @@ let digitToImagePath = n =>
   | _ => Js.Exn.raiseError("Invalid parameter")
   }
 
-// 10^rを返す。r>=1
-let logScaleToImagePath = r => {
-  if r < 1 {
+// 100の前後に続く1～99の数字
+let subNumToImagePaths = n => {
+  if n <= 0 || 100 <= n {
     Js.Exn.raiseError("Invalid parameter")
-  } else {
-    switch r {
-    | 1 => Images.num10
-    | 2 => Images.num100
-    | _ => {
-        Js.Console.warn("10^" ++ Js.Int.toString(r) ++ " is not supported. Returns 10^2 instead.")
-        Images.num100
-      }
-    }
   }
-}
 
-// 0の時[]を返す
-let rec naturalNumToImagePaths = n => {
-  if n < 0 {
-    Js.Exn.raiseError("Invalid parameter")
-  } else if n == 0 {
-    []
+  if n == 10 {
+    [Images.num10]
+  } else if mod(n, 10) === 0 {
+    [digitToImagePath(n / 10), Images.num10]
   } else {
-    let logScale = Belt.Int.fromFloat(Js.Math.log10(Belt.Int.toFloat(n)))
-    if logScale == 0 {
-      [digitToImagePath(n)]
+    let lastDigit = digitToImagePath(mod(n, 10))
+    if n >= 20 {
+      [digitToImagePath(n / 10), lastDigit]
+    } else if n >= 10 {
+      [Images.num10, lastDigit]
     } else {
-      let scale = Belt.Int.fromFloat(Js.Math.pow_float(~base=10., ~exp=Belt.Int.toFloat(logScale)))
-      let firstDigit = n / scale
-      Array.concat(list{
-        if firstDigit == 1 {
-          [logScaleToImagePath(logScale)]
-        } else {
-          [digitToImagePath(firstDigit), logScaleToImagePath(logScale)]
-        },
-        naturalNumToImagePaths(mod(n, scale)),
-      })
+      [lastDigit]
     }
   }
 }
 
-let numToImagePaths = n => {
-  if n == 0 {
+let rec numToImagePaths = n => {
+  if n < 0 {
+    Array.concat(list{[Images.neg], numToImagePaths(-n)})
+  } else if n == 0 {
     [Images.num00]
-  } else if n < 0 {
-    Array.concat(list{[Images.neg], naturalNumToImagePaths(n)})
+  } else if n < 100 {
+    let rest = mod(n, 10) === 0 ? [] : [digitToImagePath(mod(n, 10))]
+
+    if n < 10 {
+      rest
+    } else if n < 20 {
+      Array.concat(list{[Images.num10], rest})
+    } else {
+      Array.concat(list{subNumToImagePaths(n / 10), [Images.num10], rest})
+    }
   } else {
-    naturalNumToImagePaths(n)
+    let rest = mod(n, 100) === 0 ? [] : subNumToImagePaths(mod(n, 100))
+
+    if n < 200 {
+      Array.concat(list{[Images.num100], rest})
+    } else {
+      Array.concat(list{subNumToImagePaths(n / 100), [Images.num100], rest})
+    }
   }
 }
