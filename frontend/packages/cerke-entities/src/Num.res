@@ -1,6 +1,8 @@
 module Place = {
+  @genType
   type t = N10 | N100
 
+  @genType
   let fromLog10 = r => {
     switch r {
     | 1 => Some(N10)
@@ -11,8 +13,10 @@ module Place = {
 }
 
 module Digit = {
+  @genType
   type t = N0 | N1 | N2 | N3 | N4 | N5 | N6 | N7 | N8 | N9
 
+  @genType
   let fromInt = n => {
     switch n {
     | 0 => Some(N0)
@@ -30,6 +34,7 @@ module Digit = {
   }
 }
 
+@genType
 type t =
   | Place(Place.t)
   | Digit(Digit.t)
@@ -56,6 +61,7 @@ let intToSubNums = n => {
 }
 
 // -9999～9999の数字にしか対応していない
+@genType
 let rec intToNums = n => {
   if n < 0 {
     intToNums(-n)->Belt.Option.map(nums => Array.concat(list{[Neg], nums}))
