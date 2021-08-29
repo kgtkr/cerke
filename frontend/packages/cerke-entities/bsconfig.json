@@ -25,7 +25,8 @@
         "RowIndex",
         "Score",
         "Season",
-        "Side"
+        "Side",
+        "Num"
       ]
     }
   ],
