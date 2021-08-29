@@ -14,67 +14,38 @@ module Images = {
   @module("./num100.png") external num100: string = "default"
 }
 
-// 0<=n<=9
-let digitToImagePath = n =>
-  switch n {
-  | 0 => Images.num00
-  | 1 => Images.num01
-  | 2 => Images.num02
-  | 3 => Images.num03
-  | 4 => Images.num04
-  | 5 => Images.num05
-  | 6 => Images.num06
-  | 7 => Images.num07
-  | 8 => Images.num08
-  | 9 => Images.num09
-  | _ => Js.Exn.raiseError("Invalid parameter")
+let numToImagePath = num =>
+  switch num {
+  | CerkeEntities.Num.Digit(CerkeEntities.Num.Digit.N0) => Images.num00
+  | CerkeEntities.Num.Digit(CerkeEntities.Num.Digit.N1) => Images.num01
+  | CerkeEntities.Num.Digit(CerkeEntities.Num.Digit.N2) => Images.num02
+  | CerkeEntities.Num.Digit(CerkeEntities.Num.Digit.N3) => Images.num03
+  | CerkeEntities.Num.Digit(CerkeEntities.Num.Digit.N4) => Images.num04
+  | CerkeEntities.Num.Digit(CerkeEntities.Num.Digit.N5) => Images.num05
+  | CerkeEntities.Num.Digit(CerkeEntities.Num.Digit.N6) => Images.num06
+  | CerkeEntities.Num.Digit(CerkeEntities.Num.Digit.N7) => Images.num07
+  | CerkeEntities.Num.Digit(CerkeEntities.Num.Digit.N8) => Images.num08
+  | CerkeEntities.Num.Digit(CerkeEntities.Num.Digit.N9) => Images.num09
+  | CerkeEntities.Num.Place(CerkeEntities.Num.Place.N10) => Images.num10
+  | CerkeEntities.Num.Place(CerkeEntities.Num.Place.N100) => Images.num100
+  | CerkeEntities.Num.Neg => Images.neg
   }
 
-// 100の前後に続く1～99の数字
-let subNumToImagePaths = n => {
-  if n <= 0 || 100 <= n {
-    Js.Exn.raiseError("Invalid parameter")
-  }
-
-  if n == 10 {
-    [Images.num10]
-  } else if mod(n, 10) === 0 {
-    [digitToImagePath(n / 10), Images.num10]
-  } else {
-    let lastDigit = digitToImagePath(mod(n, 10))
-    if n >= 20 {
-      [digitToImagePath(n / 10), lastDigit]
-    } else if n >= 10 {
-      [Images.num10, lastDigit]
-    } else {
-      [lastDigit]
-    }
-  }
-}
-
-// -9999～9999の数字にしか対応していない
-let rec numToImagePaths = n => {
-  if n < 0 {
-    Array.concat(list{[Images.neg], numToImagePaths(-n)})
-  } else if n == 0 {
-    [Images.num00]
-  } else if n < 100 {
-    let rest = mod(n, 10) === 0 ? [] : [digitToImagePath(mod(n, 10))]
-
-    if n < 10 {
-      rest
-    } else if n < 20 {
-      Array.concat(list{[Images.num10], rest})
-    } else {
-      Array.concat(list{subNumToImagePaths(n / 10), [Images.num10], rest})
-    }
-  } else {
-    let rest = mod(n, 100) === 0 ? [] : subNumToImagePaths(mod(n, 100))
-
-    if n < 200 {
-      Array.concat(list{[Images.num100], rest})
-    } else {
-      Array.concat(list{subNumToImagePaths(n / 100), [Images.num100], rest})
-    }
-  }
+@react.component
+let make = (~n: int, ~width: float) => {
+  <div>
+    {CerkeEntities.Num.intToNums(n)
+    ->Belt.Option.map(nums =>
+      nums
+      ->Belt.Array.mapWithIndex((i, num) =>
+        <ImageSprite
+          src={numToImagePath(num)}
+          width={width}
+          translateY={(1. -. 0.06) *. width *. Belt.Int.toFloat(i)}
+        />
+      )
+      ->React.array
+    )
+    ->Belt.Option.getWithDefault(<div> {React.int(n)} </div>)}
+  </div>
 }

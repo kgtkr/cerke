@@ -18,7 +18,8 @@
         "Scoreboard",
         "WaterEntry",
         "Field",
-        "ImageSprite"
+        "ImageSprite",
+        "Num"
       ]
     }
   ],
