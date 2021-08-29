@@ -52,6 +52,7 @@ let subNumToImagePaths = n => {
   }
 }
 
+// -9999～9999の数字にしか対応していない
 let rec numToImagePaths = n => {
   if n < 0 {
     Array.concat(list{[Images.neg], numToImagePaths(-n)})
