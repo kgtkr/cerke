@@ -55,6 +55,7 @@ let intToSubNums = n => {
   }
 }
 
+// -9999～9999の数字にしか対応していない
 let rec intToNums = n => {
   if n < 0 {
     intToNums(-n)->Belt.Option.map(nums => Array.concat(list{[Neg], nums}))
