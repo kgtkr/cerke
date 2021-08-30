@@ -12,7 +12,7 @@ let makeCiurlState = (flag: bool) =>
   %GeneratorExt({
     let x = Generator.float(~min=0., ~max=5.)
     %GeneratorExt({
-      let y = Generator.float(~min=0., ~max=100.)
+      let y = Generator.float(~min=30., ~max=120.)
       %GeneratorExt({
         let rotate = Generator.float(~min=-.Js.Math._PI *. 0.15, ~max=Js.Math._PI *. 0.15)
 
@@ -40,7 +40,7 @@ module Images = {
 let make = (~count, ~seed, ~x, ~y, ~zIndex=?) => {
   let (ciurlStates, _) = Generator.run(makeCiurlStates(count), Seed.fromInt(seed))
 
-  <SpriteGroup width={150.} height={140.} x={x} y={y} zIndex=?{zIndex}>
+  <SpriteGroup width={160.} height={170.} x={x} y={y} zIndex=?{zIndex}>
     {React.array(
       ciurlStates |> Array.mapi((i, ciurlState) =>
         <ImageSprite
