@@ -25,8 +25,8 @@ let make = (
         rotate->Option.map(x => `rotate(${Float.toString(x)}rad)`),
       }->List.keepMap(Relude.Function.id) |> String.concat(""),
       ~transition=?transitionDuration->Option.map(x => `transform ${Float.toString(x)}s`),
-      ~width=`${width}px`,
-      ~height=`${height}px`,
+      ~width=`${Float.toString(width)}px`,
+      ~height=`${Float.toString(height)}px`,
       ~zIndex=?zIndex->Option.map(Int.toString),
       (),
     )}>
