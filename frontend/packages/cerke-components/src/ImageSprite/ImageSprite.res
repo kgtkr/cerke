@@ -15,11 +15,11 @@ let mkButtonProps = (~onClick=() => (), ~disabled=false, ()) => {
 let make = (
   ~src,
   ~className=?,
-  ~height=?,
-  ~width=?,
+  ~height,
+  ~width,
   ~transitionDuration=?,
-  ~translateX=?,
-  ~translateY=?,
+  ~x,
+  ~y,
   ~rotate=?,
   ~button=?,
 ) => {
@@ -27,17 +27,14 @@ let make = (
     className={styles.container ++ " " ++ className->Option.getWithDefault("")}
     draggable=false
     src={src}
-    height=?{height->Option.map(Float.toString)}
-    width=?{width->Option.map(Float.toString)}
+    height={Float.toString(height)}
+    width={Float.toString(width)}
     style={ReactDOM.Style.make(
-      ~transform=String.concat(
-        "",
-        list{
-          translateX->Option.map(x => `translateX(${Float.toString(x)}px)`),
-          translateY->Option.map(x => `translateY(${Float.toString(x)}px)`),
-          rotate->Option.map(x => `rotate(${Float.toString(x)}rad)`),
-        }->List.keepMap(Relude.Function.id),
-      ),
+      ~transform=list{
+        Some(`translateX(${Float.toString(x)}px)`),
+        Some(`translateY(${Float.toString(y)}px)`),
+        rotate->Option.map(x => `rotate(${Float.toString(x)}rad)`),
+      }->List.keepMap(Relude.Function.id) |> String.concat(""),
       ~transition=?transitionDuration->Option.map(x => `transform ${Float.toString(x)}s`),
       ~cursor=?button->Option.map(button =>
         if button.disabled {
@@ -46,6 +43,8 @@ let make = (
           "pointer"
         }
       ),
+      ~width=`${Float.toString(width)}px`,
+      ~height=`${Float.toString(height)}px`,
       (),
     )}
     onClick={_ => {

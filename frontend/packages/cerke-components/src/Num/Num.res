@@ -41,7 +41,9 @@ let make = (~n: int, ~width: float) => {
         <ImageSprite
           src={numToImagePath(num)}
           width={width}
-          translateY={(1. -. 0.06) *. width *. Belt.Int.toFloat(i)}
+          height={width}
+          x={0.}
+          y={(1. -. 0.06) *. width *. Belt.Int.toFloat(i)}
         />
       )
       ->React.array

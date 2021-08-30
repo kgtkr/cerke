@@ -146,8 +146,8 @@ let make = (~pieces: Map.String.t<FieldPiece.t>, ~state: state) => {
         src={Piece.toImagePath(FieldPiece.toPiece(fieldPiece))}
         width=60.
         height=60.
-        translateX={FieldPiece.toX(fieldPiece)}
-        translateY={FieldPiece.toY(fieldPiece)}
+        x={FieldPiece.toX(fieldPiece)}
+        y={FieldPiece.toY(fieldPiece)}
         rotate={FieldPiece.toRotate(fieldPiece)}
         transitionDuration={1.5 *. 0.8093}
         button=?{switch state {
@@ -170,8 +170,8 @@ let make = (~pieces: Map.String.t<FieldPiece.t>, ~state: state) => {
             className={styles.selection}
             width=60.
             height=60.
-            translateX={FieldPiece.toX(target)}
-            translateY={FieldPiece.toY(target)}
+            x={FieldPiece.toX(target)}
+            y={FieldPiece.toY(target)}
             rotate={FieldPiece.toRotate(target)}
             button={ImageSprite.mkButtonProps()}
           />
@@ -187,8 +187,8 @@ let make = (~pieces: Map.String.t<FieldPiece.t>, ~state: state) => {
               className={styles.guide}
               width=60.
               height=60.
-              translateX={FieldPiece.colIndexToX(movable.coord.col)}
-              translateY={FieldPiece.rowIndexToY(movable.coord.row)}
+              x={FieldPiece.colIndexToX(movable.coord.col)}
+              y={FieldPiece.rowIndexToY(movable.coord.row)}
               button={ImageSprite.mkButtonProps()}
             />
           )
@@ -204,16 +204,16 @@ let make = (~pieces: Map.String.t<FieldPiece.t>, ~state: state) => {
             src={Piece.toImagePath(FieldPiece.toPiece(target))}
             width=60.
             height=60.
-            translateX={FieldPiece.colIndexToX(waypoint.col) -. FieldPiece._PIECE_PAD}
-            translateY={FieldPiece.rowIndexToY(waypoint.row) +. FieldPiece._PIECE_PAD}
+            x={FieldPiece.colIndexToX(waypoint.col) -. FieldPiece._PIECE_PAD}
+            y={FieldPiece.rowIndexToY(waypoint.row) +. FieldPiece._PIECE_PAD}
           />
           <ImageSprite
             src={Images.selection}
             className={styles.selection}
             width=60.
             height=60.
-            translateX={FieldPiece.colIndexToX(waypoint.col) -. FieldPiece._PIECE_PAD}
-            translateY={FieldPiece.rowIndexToY(waypoint.row) +. FieldPiece._PIECE_PAD}
+            x={FieldPiece.colIndexToX(waypoint.col) -. FieldPiece._PIECE_PAD}
+            y={FieldPiece.rowIndexToY(waypoint.row) +. FieldPiece._PIECE_PAD}
           />
           {movable
           ->List.mapWithIndex((i, movable) =>
@@ -227,8 +227,8 @@ let make = (~pieces: Map.String.t<FieldPiece.t>, ~state: state) => {
               className={styles.guide}
               width=60.
               height=60.
-              translateX={FieldPiece.colIndexToX(movable.coord.col)}
-              translateY={FieldPiece.rowIndexToY(movable.coord.row)}
+              x={FieldPiece.colIndexToX(movable.coord.col)}
+              y={FieldPiece.rowIndexToY(movable.coord.row)}
               button={ImageSprite.mkButtonProps()}
             />
           )
@@ -238,8 +238,8 @@ let make = (~pieces: Map.String.t<FieldPiece.t>, ~state: state) => {
             src={Images.bmun}
             width=80.
             height=80.
-            translateX={526.}
-            translateY={780.}
+            x={526.}
+            y={780.}
             button={ImageSprite.mkButtonProps()}
           />
         </>

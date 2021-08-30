@@ -54,8 +54,8 @@ let make = (~count, ~seed) => {
           }}
           width=150.
           height=15.
-          translateX=ciurlState.x
-          translateY=ciurlState.y
+          x=ciurlState.x
+          y=ciurlState.y
           rotate=ciurlState.rotate
           key={string_of_int(i)}
         />
