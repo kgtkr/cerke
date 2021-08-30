@@ -22,6 +22,7 @@ let make = (
   ~y,
   ~rotate=?,
   ~button=?,
+  ~zIndex=?,
 ) => {
   <img
     className={styles.container ++ " " ++ className->Option.getWithDefault("")}
@@ -45,6 +46,7 @@ let make = (
       ),
       ~width=`${Float.toString(width)}px`,
       ~height=`${Float.toString(height)}px`,
+      ~zIndex=?zIndex->Option.map(Int.toString),
       (),
     )}
     onClick={_ => {

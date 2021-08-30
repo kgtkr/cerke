@@ -13,6 +13,7 @@ let make = (
   ~transitionDuration=?,
   ~rotate=?,
   ~children=?,
+  ~zIndex=?,
 ) => {
   <div
     className={list{Some(styles.container), className}->Belt.List.keepMap(Relude.Function.id)
@@ -26,6 +27,7 @@ let make = (
       ~transition=?transitionDuration->Option.map(x => `transform ${Float.toString(x)}s`),
       ~width=`${width}px`,
       ~height=`${height}px`,
+      ~zIndex=?zIndex->Option.map(Int.toString),
       (),
     )}>
     {children->Option.getWithDefault(React.null)}
