@@ -32,7 +32,7 @@ let numToImagePath = num =>
   }
 
 @react.component
-let make = (~n: int, ~width: float) => {
+let make = (~n: int, ~fontSize: float) => {
   <div>
     {CerkeEntities.Num.intToNums(n)
     ->Belt.Option.map(nums =>
@@ -40,10 +40,10 @@ let make = (~n: int, ~width: float) => {
       ->Belt.Array.mapWithIndex((i, num) =>
         <ImageSprite
           src={numToImagePath(num)}
-          width={width}
-          height={width}
+          width={fontSize}
+          height={fontSize}
           x={0.}
-          y={(1. -. 0.06) *. width *. Belt.Int.toFloat(i)}
+          y={(1. -. 0.06) *. fontSize *. Belt.Int.toFloat(i)}
         />
       )
       ->React.array
