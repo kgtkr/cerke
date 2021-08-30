@@ -1,6 +1,6 @@
 let default = CerkeSb.make(
   (props: {"n": int, "fontSize": int}) =>
-    <Num n={props["n"]} fontSize={Belt.Int.toFloat(props["fontSize"])} />,
+    <Num n={props["n"]} fontSize={Belt.Int.toFloat(props["fontSize"])} x={0.} y={0.} />,
   {
     "title": "Num",
     "argTypes": {

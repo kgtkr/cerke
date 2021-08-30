@@ -32,9 +32,19 @@ let numToImagePath = num =>
   }
 
 @react.component
-let make = (~n: int, ~fontSize: float) => {
-  <div>
-    {CerkeEntities.Num.intToNums(n)
+let make = (~n: int, ~fontSize: float, ~x, ~y, ~zIndex=?) => {
+  let nums = CerkeEntities.Num.intToNums(n)
+  let letterSpacing = -0.06
+
+  <SpriteGroup
+    height={(1. +. letterSpacing) *.
+    fontSize *.
+    Belt.Int.toFloat(nums->Belt.Option.map(Belt.Array.length)->Belt.Option.getWithDefault(32))}
+    width={fontSize}
+    x={x}
+    y={y}
+    zIndex=?{zIndex}>
+    {nums
     ->Belt.Option.map(nums =>
       nums
       ->Belt.Array.mapWithIndex((i, num) =>
@@ -43,11 +53,11 @@ let make = (~n: int, ~fontSize: float) => {
           width={fontSize}
           height={fontSize}
           x={0.}
-          y={(1. -. 0.06) *. fontSize *. Belt.Int.toFloat(i)}
+          y={(1. +. letterSpacing) *. fontSize *. Belt.Int.toFloat(i)}
         />
       )
       ->React.array
     )
     ->Belt.Option.getWithDefault(<div> {React.int(n)} </div>)}
-  </div>
+  </SpriteGroup>
 }
