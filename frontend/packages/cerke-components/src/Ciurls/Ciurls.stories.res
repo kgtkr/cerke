@@ -1,5 +1,6 @@
 let default = CerkeSb.make(
-  (props: {"count": int, "seed": int}) => <Ciurls count={props["count"]} seed={props["seed"]} />,
+  (props: {"count": int, "seed": int}) =>
+    <Ciurls count={props["count"]} seed={props["seed"]} x={0.} y={0.} />,
   {
     "title": "Ciurls",
     "argTypes": {

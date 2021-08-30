@@ -31,19 +31,16 @@ let makeCiurlStates = count =>
   |> TraversableExt.ArrayGenerator.traverse(x => makeCiurlState(x < count))
   |> Generator.flatMap(xs => ArrayExt.shuffle(xs))
 
-type styles = {container: string}
-@module("./Ciurls.scss") external styles: styles = "default"
-
 module Images = {
   @module("./ciurl_true.png") external ciurlTrue: string = "default"
   @module("./ciurl_false.png") external ciurlFalse: string = "default"
 }
 
 @genType.as("Ciurls") @react.component
-let make = (~count, ~seed) => {
+let make = (~count, ~seed, ~x, ~y, ~zIndex=?) => {
   let (ciurlStates, _) = Generator.run(makeCiurlStates(count), Seed.fromInt(seed))
 
-  <div className=styles.container>
+  <SpriteGroup width={150.} height={140.} x={x} y={y} zIndex=?{zIndex}>
     {React.array(
       ciurlStates |> Array.mapi((i, ciurlState) =>
         <ImageSprite
@@ -58,8 +55,9 @@ let make = (~count, ~seed) => {
           y=ciurlState.y
           rotate=ciurlState.rotate
           key={string_of_int(i)}
+          zIndex={i}
         />
       ),
     )}
-  </div>
+  </SpriteGroup>
 }
