@@ -5,24 +5,24 @@ open Belt
 module Ciurl = {
   type t = {
     isHead: bool,
-    x: float,
-    y: float,
-    rotate: float,
+    dX: float,
+    dY: float,
+    dRotate: float,
   }
 
   let gen = (flag: bool) =>
     %GeneratorExt({
-      let x = Generator.float(~min=0., ~max=5.)
+      let dX = GeneratorExt.normalDist(~mean=0., ~var=100.)
       %GeneratorExt({
-        let y = Generator.float(~min=30., ~max=120.)
+        let dY = GeneratorExt.normalDist(~mean=0., ~var=500.)
         %GeneratorExt({
-          let rotate = Generator.float(~min=-.Js.Math._PI *. 0.15, ~max=Js.Math._PI *. 0.15)
+          let dRotate = GeneratorExt.normalDist(~mean=0., ~var=0.1)
 
           Generator.pure({
             isHead: flag,
-            x: x,
-            y: y,
-            rotate: rotate,
+            dX: dX,
+            dY: dY,
+            dRotate: dRotate,
           })
         })
       })
@@ -41,9 +41,14 @@ module Images = {
 
 @genType.as("Ciurls") @react.component
 let make = (~count, ~seed, ~x, ~y, ~zIndex=?) => {
+  let ciurlWidth = 150.
+  let ciurlHeight = 15.
+
+  let width = 200.
+  let height = 200.
   let (ciurls, _) = Generator.run(Ciurl.ciurlsGen(count), Seed.fromInt(seed))
 
-  <SpriteGroup width={160.} height={170.} x={x} y={y} zIndex=?{zIndex}>
+  <SpriteGroup width={width} height={height} x={x} y={y} zIndex=?{zIndex}>
     {React.array(
       ciurls->Array.mapWithIndex((i, ciurl) =>
         <ImageSprite
@@ -52,11 +57,11 @@ let make = (~count, ~seed, ~x, ~y, ~zIndex=?) => {
           } else {
             Images.ciurlFalse
           }}
-          width=150.
-          height=15.
-          x=ciurl.x
-          y=ciurl.y
-          rotate=ciurl.rotate
+          width=ciurlWidth
+          height=ciurlHeight
+          x={ciurl.dX +. width /. 2. -. ciurlWidth /. 2.}
+          y={ciurl.dY +. height /. 2. -. ciurlHeight /. 2.}
+          rotate={ciurl.dRotate +. Js.Math._PI}
           key={string_of_int(i)}
           zIndex={i}
         />
