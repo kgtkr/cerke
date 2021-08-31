@@ -34,7 +34,7 @@ module Images = {
   @module("./bmun.png") external bmun: string = "default"
 }
 
-module FieldPiece = {
+module PieceOnField = {
   type t =
     | OnBoard({piece: CerkeEntities.Piece.t, coord: CerkeEntities.Coord.t})
     | Captured({piece: CerkeEntities.NonTam2Piece.t, index: int})
@@ -128,7 +128,7 @@ type state =
   | StepOverMoveSelection({target: key, waypoint: CerkeEntities.Coord.t, movable: list<Movable.t>})
 
 @react.component
-let make = (~pieces: Map.String.t<FieldPiece.t>, ~state: state) => {
+let make = (~pieces: Map.String.t<PieceOnField.t>, ~state: state) => {
   <div
     className={String.concat(
       " ",
@@ -136,26 +136,26 @@ let make = (~pieces: Map.String.t<FieldPiece.t>, ~state: state) => {
     )}>
     {pieces
     ->Map.String.toArray
-    ->Array.map(((key, fieldPiece)) =>
+    ->Array.map(((key, pieceOnField)) =>
       <ImageSprite
         className={switch state {
         | StepOverMoveSelection({target}) if key == target => styles.stepOverMoveSelectionTarget
         | _ => ""
         }}
         key={key}
-        src={Piece.toImagePath(FieldPiece.toPiece(fieldPiece))}
+        src={Piece.toImagePath(PieceOnField.toPiece(pieceOnField))}
         width=60.
         height=60.
-        x={FieldPiece.toX(fieldPiece)}
-        y={FieldPiece.toY(fieldPiece)}
-        rotate={FieldPiece.toRotate(fieldPiece)}
+        x={PieceOnField.toX(pieceOnField)}
+        y={PieceOnField.toY(pieceOnField)}
+        rotate={PieceOnField.toRotate(pieceOnField)}
         transitionDuration={1.5 *. 0.8093}
         button=?{switch state {
         | MyTurnInit => true
         | MoveSelection(_) => true
         | _ => false
         } &&
-        FieldPiece.notDownwardPiece(fieldPiece)
+        PieceOnField.notDownwardPiece(pieceOnField)
           ? Some(ImageSprite.mkButtonProps())
           : None}
       />
@@ -170,9 +170,9 @@ let make = (~pieces: Map.String.t<FieldPiece.t>, ~state: state) => {
             className={styles.selection}
             width=60.
             height=60.
-            x={FieldPiece.toX(target)}
-            y={FieldPiece.toY(target)}
-            rotate={FieldPiece.toRotate(target)}
+            x={PieceOnField.toX(target)}
+            y={PieceOnField.toY(target)}
+            rotate={PieceOnField.toRotate(target)}
             button={ImageSprite.mkButtonProps()}
           />
           {movable
@@ -187,8 +187,8 @@ let make = (~pieces: Map.String.t<FieldPiece.t>, ~state: state) => {
               className={styles.guide}
               width=60.
               height=60.
-              x={FieldPiece.colIndexToX(movable.coord.col)}
-              y={FieldPiece.rowIndexToY(movable.coord.row)}
+              x={PieceOnField.colIndexToX(movable.coord.col)}
+              y={PieceOnField.rowIndexToY(movable.coord.row)}
               button={ImageSprite.mkButtonProps()}
             />
           )
@@ -201,19 +201,19 @@ let make = (~pieces: Map.String.t<FieldPiece.t>, ~state: state) => {
         <>
           <div className={styles.overlay} />
           <ImageSprite
-            src={Piece.toImagePath(FieldPiece.toPiece(target))}
+            src={Piece.toImagePath(PieceOnField.toPiece(target))}
             width=60.
             height=60.
-            x={FieldPiece.colIndexToX(waypoint.col) -. FieldPiece._PIECE_PAD}
-            y={FieldPiece.rowIndexToY(waypoint.row) +. FieldPiece._PIECE_PAD}
+            x={PieceOnField.colIndexToX(waypoint.col) -. PieceOnField._PIECE_PAD}
+            y={PieceOnField.rowIndexToY(waypoint.row) +. PieceOnField._PIECE_PAD}
           />
           <ImageSprite
             src={Images.selection}
             className={styles.selection}
             width=60.
             height=60.
-            x={FieldPiece.colIndexToX(waypoint.col) -. FieldPiece._PIECE_PAD}
-            y={FieldPiece.rowIndexToY(waypoint.row) +. FieldPiece._PIECE_PAD}
+            x={PieceOnField.colIndexToX(waypoint.col) -. PieceOnField._PIECE_PAD}
+            y={PieceOnField.rowIndexToY(waypoint.row) +. PieceOnField._PIECE_PAD}
           />
           {movable
           ->List.mapWithIndex((i, movable) =>
@@ -227,8 +227,8 @@ let make = (~pieces: Map.String.t<FieldPiece.t>, ~state: state) => {
               className={styles.guide}
               width=60.
               height=60.
-              x={FieldPiece.colIndexToX(movable.coord.col)}
-              y={FieldPiece.rowIndexToY(movable.coord.row)}
+              x={PieceOnField.colIndexToX(movable.coord.col)}
+              y={PieceOnField.rowIndexToY(movable.coord.row)}
               button={ImageSprite.mkButtonProps()}
             />
           )

@@ -92,7 +92,7 @@ let default = CerkeSb.make(
 
             switch props["type"] {
             | "OnBoard" =>
-              CerkeComponents.Field.FieldPiece.OnBoard({
+              CerkeComponents.Field.PieceOnField.OnBoard({
                 piece: piece
                 ->Option.map(piece => CerkeEntities.Piece.NonTam2Piece(piece))
                 ->Option.getWithDefault(CerkeEntities.Piece.Tam2),
@@ -102,7 +102,7 @@ let default = CerkeSb.make(
                 },
               })
             | "Captured" =>
-              CerkeComponents.Field.FieldPiece.Captured({
+              CerkeComponents.Field.PieceOnField.Captured({
                 piece: piece->Option.getWithDefault({
                   CerkeEntities.NonTam2Piece.color: color,
                   prof: CerkeEntities.Profession.Nuak1,
