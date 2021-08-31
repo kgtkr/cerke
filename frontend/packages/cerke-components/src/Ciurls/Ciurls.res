@@ -1,35 +1,38 @@
 open ReludeRandom
 open CerkeExt
+open Belt
 
-type ciurlState = {
-  flag: bool,
-  x: float,
-  y: float,
-  rotate: float,
-}
+module Ciurl = {
+  type t = {
+    isHead: bool,
+    x: float,
+    y: float,
+    rotate: float,
+  }
 
-let makeCiurlState = (flag: bool) =>
-  %GeneratorExt({
-    let x = Generator.float(~min=0., ~max=5.)
+  let gen = (flag: bool) =>
     %GeneratorExt({
-      let y = Generator.float(~min=30., ~max=120.)
+      let x = Generator.float(~min=0., ~max=5.)
       %GeneratorExt({
-        let rotate = Generator.float(~min=-.Js.Math._PI *. 0.15, ~max=Js.Math._PI *. 0.15)
+        let y = Generator.float(~min=30., ~max=120.)
+        %GeneratorExt({
+          let rotate = Generator.float(~min=-.Js.Math._PI *. 0.15, ~max=Js.Math._PI *. 0.15)
 
-        Generator.pure({
-          flag: flag,
-          x: x,
-          y: y,
-          rotate: rotate,
+          Generator.pure({
+            isHead: flag,
+            x: x,
+            y: y,
+            rotate: rotate,
+          })
         })
       })
     })
-  })
 
-let makeCiurlStates = count =>
-  Belt.Array.range(0, 4)
-  |> TraversableExt.ArrayGenerator.traverse(x => makeCiurlState(x < count))
-  |> Generator.flatMap(xs => ArrayExt.shuffle(xs))
+  let ciurlsGen = count =>
+    Array.range(0, 4)
+    |> TraversableExt.ArrayGenerator.traverse(x => gen(x < count))
+    |> Generator.flatMap(ArrayExt.shuffle)
+}
 
 module Images = {
   @module("./ciurl_true.png") external ciurlTrue: string = "default"
@@ -38,22 +41,22 @@ module Images = {
 
 @genType.as("Ciurls") @react.component
 let make = (~count, ~seed, ~x, ~y, ~zIndex=?) => {
-  let (ciurlStates, _) = Generator.run(makeCiurlStates(count), Seed.fromInt(seed))
+  let (ciurls, _) = Generator.run(Ciurl.ciurlsGen(count), Seed.fromInt(seed))
 
   <SpriteGroup width={160.} height={170.} x={x} y={y} zIndex=?{zIndex}>
     {React.array(
-      ciurlStates |> Array.mapi((i, ciurlState) =>
+      ciurls->Array.mapWithIndex((i, ciurl) =>
         <ImageSprite
-          src={if ciurlState.flag {
+          src={if ciurl.isHead {
             Images.ciurlTrue
           } else {
             Images.ciurlFalse
           }}
           width=150.
           height=15.
-          x=ciurlState.x
-          y=ciurlState.y
-          rotate=ciurlState.rotate
+          x=ciurl.x
+          y=ciurl.y
+          rotate=ciurl.rotate
           key={string_of_int(i)}
           zIndex={i}
         />
